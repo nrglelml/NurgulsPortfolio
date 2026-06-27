@@ -11,12 +11,16 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews().AddFluentValidation();
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<AdminLoginValidator>();
+
 builder.Services.AddDbContext<Context>();
 
 builder.Services.AddIdentity<AppUser, AppRole>()
-    .AddEntityFrameworkStores<Context>()
-    .AddErrorDescriber<CustomIdentityValidator>();
+    .AddEntityFrameworkStores<Context>();
 
 builder.Services.AddHttpClient();
 //businesslayer/container/extension.cs dosyasý için
@@ -57,6 +61,11 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
 
 app.MapControllerRoute(
     name: "default",

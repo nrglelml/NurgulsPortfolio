@@ -1,7 +1,10 @@
 ﻿using BusinessLayer.Abstract;
 using BusinessLayer.Concrete;
+using BusinessLayer.ValidationRules;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.EntityFramework;
+using DTOLayer;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -57,6 +60,9 @@ namespace BusinessLayer.Container
 
             services.AddScoped<ITestimonialDal, EfTestimonialDal>();
             services.AddScoped<ITestimonialService, TestimonialManager>();
+
+
+            services.AddScoped<IValidator<AdminLoginDTO>, AdminLoginValidator>();
         }
     }
 }
