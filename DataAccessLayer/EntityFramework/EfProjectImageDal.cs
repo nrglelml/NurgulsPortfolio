@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.EntityFramework
 {
-    public class EfProjectImagesDal:GenericRepository<ProjectImage>,IProjectImageDal
+    public class EfProjectImageDal:GenericRepository<ProjectImage>,IProjectImageDal
     {
     }
 }
