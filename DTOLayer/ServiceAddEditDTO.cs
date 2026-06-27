@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DTOLayer
 {
-    public class ServiceAddEditDTo
+    public class ServiceAddEditDTO
     {
         public int Id { get; set; }
         public string Title { get; set; }

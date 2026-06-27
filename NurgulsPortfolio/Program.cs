@@ -19,7 +19,9 @@ builder.Services.AddIdentity<AppUser, AppRole>()
     .AddErrorDescriber<CustomIdentityValidator>();
 
 builder.Services.AddHttpClient();
+//businesslayer/container/extension.cs dosyasý için
 builder.Services.ContainerDependencies();
+//mapping iþlemi için
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddMvc(config =>
 {
