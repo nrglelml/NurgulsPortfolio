@@ -11,8 +11,6 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<AdminLoginValidator>();
@@ -64,7 +62,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
       name: "areas",
-      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+      pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
     );
 
 app.MapControllerRoute(

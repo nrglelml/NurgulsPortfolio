@@ -1,0 +1,257 @@
+﻿
+@{
+    Layout = null;
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+    string NavClass(string ctrl, string act = "Index") =>
+        controller == ctrl && action == act
+        ? "flex items-center gap-3 py-3 text-on-primary font-bold border-l-4 border-primary-container pl-4 hover:bg-on-secondary-fixed-variant transition-colors active:scale-95 duration-150"
+        : "flex items-center gap-3 py-3 text-on-tertiary-fixed-variant hover:text-on-primary px-4 hover:bg-on-secondary-fixed-variant transition-colors active:scale-95 duration-150";
+}
+
+<!DOCTYPE html>
+
+<html class="light" lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>@ViewData["Title"] - Nurgül Elmalı</title>
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface-variant": "#584237",
+                      "on-secondary-fixed": "#1a1a29",
+                      "on-tertiary-container": "#303336",
+                      "surface-dim": "#d0daef",
+                      "tertiary-container": "#989b9f",
+                      "error-container": "#ffdad6",
+                      "surface-container-high": "#dee9fd",
+                      "secondary-fixed": "#e3e0f5",
+                      "on-tertiary-fixed-variant": "#44474a",
+                      "on-primary-container": "#582200",
+                      "on-primary-fixed-variant": "#783200",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#e0ddf2",
+                      "surface-variant": "#d9e3f7",
+                      "on-secondary-fixed-variant": "#464556",
+                      "surface-container-highest": "#d9e3f7",
+                      "on-surface": "#121c2a",
+                      "surface-tint": "#9d4300",
+                      "surface-container": "#e6eeff",
+                      "on-background": "#121c2a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "surface": "#f9f9ff",
+                      "inverse-surface": "#273140",
+                      "primary-fixed-dim": "#ffb690",
+                      "outline": "#8c7164",
+                      "surface-container-low": "#eff3ff",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#c7c4d9",
+                      "surface-bright": "#f9f9ff",
+                      "secondary": "#5d5d6e",
+                      "primary": "#9d4300",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed": "#191c1f",
+                      "outline-variant": "#e0c0b1",
+                      "primary-fixed": "#ffdbca",
+                      "inverse-on-surface": "#ebf1ff",
+                      "error": "#ba1a1a",
+                      "on-secondary-container": "#626173",
+                      "tertiary": "#5c5f62",
+                      "tertiary-fixed": "#e0e2e6",
+                      "background": "#f9f9ff",
+                      "inverse-primary": "#ffb690",
+                      "primary-container": "#f97316",
+                      "on-primary-fixed": "#341100",
+                      "tertiary-fixed-dim": "#c4c7ca"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container_padding": "32px",
+                      "stack_md": "16px",
+                      "sidebar_width": "240px",
+                      "stack_lg": "24px",
+                      "stack_sm": "8px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "h1": ["Hanken Grotesk"],
+                      "h2": ["Hanken Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "body-lg": ["Hanken Grotesk"],
+                      "h3": ["Hanken Grotesk"],
+                      "h1-mobile": ["Hanken Grotesk"],
+                      "label-md": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "h1": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "h2": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "h3": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "h1-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+    <style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+        .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+        .sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+    <!-- SideNavBar Shell -->
+    <aside class="fixed left-0 top-0 h-screen w-[240px] bg-on-secondary-fixed flex flex-col py-stack_lg z-50">
+        <div class="px-6 mb-8">
+            <h2 class="font-h2 text-h2 font-bold text-on-primary">Portfolyo Paneli</h2>
+            <p class="text-on-tertiary-fixed-variant font-label-md text-label-md mt-1 uppercase tracking-wider">Yönetici Paneli</p>
+        </div>
+        <nav class="flex-1 overflow-y-auto sidebar-scroll px-2 space-y-1">
+            <!-- Active State: Gösterge Paneli -->
+            <a class="@NavClass("Dashboard")" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-body-md text-body-md">Gösterge Paneli</span>
+            </a>
+
+            <a class="@NavClass("AboutMe")" asp-area="Admin" asp-controller="AboutMe" asp-action="Index">
+                <span class="material-symbols-outlined">person</span>
+                <span class="font-body-md text-body-md">Hakkımda</span>
+            </a>
+
+            <a class="@NavClass("CvFile")" asp-area="Admin" asp-controller="CvFile" asp-action="Index">
+                <span class="material-symbols-outlined">description</span>
+                <span class="font-body-md text-body-md">CV Dosyaları</span>
+            </a>
+
+            <a class="@NavClass("Project")" asp-area="Admin" asp-controller="Project" asp-action="Index">
+                <span class="material-symbols-outlined">business_center</span>
+                <span class="font-body-md text-body-md">Projeler</span>
+            </a>
+
+            <a class="@NavClass("Service")" asp-area="Admin" asp-controller="Service" asp-action="Index">
+                <span class="material-symbols-outlined">design_services</span>
+                <span class="font-body-md text-body-md">Hizmetler</span>
+            </a>
+
+            <a class="@NavClass("Skill")" asp-area="Admin" asp-controller="Skill" asp-action="Index">
+                <span class="material-symbols-outlined">bolt</span>
+                <span class="font-body-md text-body-md">Yetenekler</span>
+            </a>
+
+            <a class="@NavClass("Education")" asp-area="Admin" asp-controller="Education" asp-action="Index">
+                <span class="material-symbols-outlined">school</span>
+                <span class="font-body-md text-body-md">Eğitim</span>
+            </a>
+
+            <a class="@NavClass("Experience")" asp-area="Admin" asp-controller="Experience" asp-action="Index">
+                <span class="material-symbols-outlined">work</span>
+                <span class="font-body-md text-body-md">Deneyim</span>
+            </a>
+
+            <a class="@NavClass("Certificate")" asp-area="Admin" asp-controller="Certificate" asp-action="Index">
+                <span class="material-symbols-outlined">verified</span>
+                <span class="font-body-md text-body-md">Sertifikalar</span>
+            </a>
+
+            <a class="@NavClass("Interest")" asp-area="Admin" asp-controller="Interest" asp-action="Index">
+                <span class="material-symbols-outlined">interests</span>
+                <span class="font-body-md text-body-md">İlgi Alanları</span>
+            </a>
+
+            <a class="@NavClass("SocialMedia")" asp-area="Admin" asp-controller="SocialMedia" asp-action="Index">
+                <span class="material-symbols-outlined">share</span>
+                <span class="font-body-md text-body-md">Sosyal Medya</span>
+            </a>
+
+            <a class="@NavClass("Testimonials")" asp-area="Admin" asp-controller="Testimonials" asp-action="Index">
+                <span class="material-symbols-outlined">recommend</span>
+                <span class="font-body-md text-body-md">Referanslar</span>
+            </a>
+
+    @*         <a class="@NavClass("Contact")" asp-area="Admin" asp-controller="Contact" asp-action="Index">
+                <span class="material-symbols-outlined">mail</span>
+                <span class="font-body-md text-body-md">Mesajlar</span>
+            </a> *@
+
+            <a class="@NavClass("ContactMe")" asp-area="Admin" asp-controller="ContactMe" asp-action="Index">
+                <span class="material-symbols-outlined">contact_page</span>
+                <span class="font-body-md text-body-md">İletişim Bilgileri</span>
+            </a>
+        </nav>
+        <div class="px-2 mt-auto pt-6 border-t border-on-secondary-fixed-variant/30 space-y-1">
+            <a class="flex items-center gap-3 py-3 text-on-tertiary-fixed-variant hover:text-on-primary px-4 hover:bg-on-secondary-fixed-variant transition-colors transition-transform active:scale-95 duration-150" href="#">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="font-body-md text-body-md">Ayarlar</span>
+            </a>
+            <a class="flex items-center gap-3 py-3 text-error hover:bg-error-container/10 px-4 transition-colors transition-transform active:scale-95 duration-150" href="/Admin/Login/LogOut">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="font-body-md text-body-md">Çıkış Yap</span>
+            </a>
+        </div>
+    </aside>
+    <!-- TopAppBar Shell -->
+    <header class="fixed top-0 right-0 h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-container_padding ml-[240px] w-[calc(100%-240px)] z-40">
+        <div class="flex items-center bg-surface-container-low px-4 py-2 rounded-full w-96 border border-outline-variant/30">
+            <span class="material-symbols-outlined text-secondary mr-2">search</span>
+            <input class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-full placeholder-secondary" placeholder="Panelde ara..." type="text" />
+        </div>
+        <div class="flex items-center gap-6">
+            @await Component.InvokeAsync("_TopBar")
+       
+        </div>
+    </header>
+    <!-- Main Content Canvas -->
+    @RenderBody()
+    <script>
+        // Micro-interactions and reactive states
+        document.querySelectorAll('button, a').forEach(elem => {
+            elem.addEventListener('mousedown', () => {
+                elem.style.transform = 'scale(0.96)';
+            });
+            elem.addEventListener('mouseup', () => {
+                elem.style.transform = 'scale(1)';
+            });
+            elem.addEventListener('mouseleave', () => {
+                elem.style.transform = 'scale(1)';
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        const searchContainer = searchInput.parentElement;
+        searchInput.addEventListener('focus', () => {
+            searchContainer.classList.add('border-primary-container');
+            searchContainer.classList.add('ring-2');
+            searchContainer.classList.add('ring-primary-container/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchContainer.classList.remove('border-primary-container');
+            searchContainer.classList.remove('ring-2');
+            searchContainer.classList.remove('ring-primary-container/20');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+﻿@model List<ContactMe>
+@{
+    Layout = null;
+}
+
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+    <div class="p-6 border-b border-outline-variant flex justify-between items-center">
+        <h3 class="font-h3 text-h3 text-on-surface">Son Mesajlar</h3>
+        <a href="/Admin/ContactMe/Index" class="text-primary font-label-md text-label-md hover:underline">Tümünü Gör</a>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead class="bg-surface-container text-secondary font-label-md text-label-md uppercase tracking-wider">
+                <tr>
+                    <th class="px-6 py-4 font-semibold">İsim</th>
+                    <th class="px-6 py-4 font-semibold">Mail</th>
+                    <th class="px-6 py-4 font-semibold">Konu</th>
+                    <th class="px-6 py-4 font-semibold">Durum</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant">
+                @foreach(var item in Model)
+                {
+                    <tr class="hover:bg-surface-container-low transition-colors group">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-bold text-xs">@item.Name.Substring(0,1)</div>
+                                <span class="font-body-md text-body-md text-on-surface">@item.Name</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-body-md text-secondary">@item.Mail</td>
+                        <td class="px-6 py-4 text-body-md text-secondary">@item.Subject</td>
+                        @if (@item.IsActive)
+                        {
+                            <td class="px-6 py-4 text-success">Aktif</td>
+                        }
+                        else
+                        {
+                            <td class="px-6 py-4 text-danger">Pasif</td>
+                        }
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -7,9 +7,5 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
     [Authorize]
     public class BaseAdminController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }

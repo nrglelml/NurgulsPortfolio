@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+    <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:border-primary-container/50 transition-colors">
+        <div class="flex justify-between items-start">
+            <div class="bg-primary-container/10 p-3 rounded-lg">
+                <span class="material-symbols-outlined text-primary-container">business_center</span>
+            </div>
+            <span class="text-secondary font-label-md text-label-md">Aktif: @ViewBag.projectsT/span>
+        </div>
+        <div class="mt-4">
+            <h3 class="font-h3 text-h3 text-on-surface">@ViewBag.projects</h3>
+            <p class="font-body-md text-body-md text-secondary">Toplam Proje</p>
+        </div>
+    </div>
+    <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:border-primary-container/50 transition-colors">
+        <div class="flex justify-between items-start">
+            <div class="bg-error-container/30 p-3 rounded-lg">
+                <span class="material-symbols-outlined text-error">mail</span>
+            </div>
+            <span class="text-secondary font-label-md text-label-md">Aktif: @ViewBag.messagesT</span>
+        </div>
+        <div class="mt-4">
+            <h3 class="font-h3 text-h3 text-on-surface">@ViewBag.messages</h3>
+            <p class="font-body-md text-body-md text-secondary">Yeni Mesaj</p>
+        </div>
+    </div>
+    <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:border-primary-container/50 transition-colors">
+        <div class="flex justify-between items-start">
+            <div class="bg-surface-variant p-3 rounded-lg">
+                <span class="material-symbols-outlined text-on-surface-variant">bolt</span>
+            </div>
+            <span class="text-secondary font-label-md text-label-md">Aktif: @ViewBag.skillsT </span>
+        </div>
+        <div class="mt-4">
+            <h3 class="font-h3 text-h3 text-on-surface">@ViewBag.skills</h3>
+            <p class="font-body-md text-body-md text-secondary">Toplam Yetenek</p>
+        </div>
+    </div>
+    <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:border-primary-container/50 transition-colors">
+        <div class="flex justify-between items-start">
+            <div class="bg-secondary-container/50 p-3 rounded-lg">
+                <span class="material-symbols-outlined text-secondary">description</span>
+            </div>
+        </div>
+        <div class="mt-4">
+            <h3 class="font-h3 text-h3 text-on-surface">@ViewBag.cv</h3>
+            <p class="font-body-md text-body-md text-secondary">CV Sayısı</p>
+        </div>
+    </div>
+</div>

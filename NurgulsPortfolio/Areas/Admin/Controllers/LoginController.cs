@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace NurgulsPortfolio.Areas.Admin.Controllers
 {
-
+    [AllowAnonymous]
     public class LoginController : BaseAdminController
     {
         private readonly UserManager<AppUser> _userManager;
@@ -16,13 +16,12 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult SignIn()
         {
             return View();
         }
-        [AllowAnonymous]
+
         [HttpPost]  
         public async Task<IActionResult> SignIn(AdminLoginDTO dto)
         {
@@ -39,12 +38,10 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı.");
             return View(dto);
         }
-        [AllowAnonymous]
-        [HttpPost]
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("SignIn", "Login");
+            return RedirectToAction("SignIn", "Login", new { area = "Admin" });
         }
         //[HttpPost]
         //public async Task<IActionResult> UpdateCredentials(AdminCredentialsDto dto)

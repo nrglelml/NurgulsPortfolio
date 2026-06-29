@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "Portfolio Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main class="ml-[240px] pt-16 min-h-screen">
+    <div class="max-w-[1280px] mx-auto p-container_padding space-y-stack_lg">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-secondary">
+            <span class="font-body-md text-body-md hover:text-primary cursor-pointer transition-colors">Ana Sayfa</span>
+            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+            <span class="font-body-md text-body-md text-on-surface font-semibold">Gösterge Paneli</span>
+        </nav>
+        <!-- Header & Quick Actions -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="font-h1 text-h1 text-on-surface">Hoş Geldiniz, Nurgül</h1>
+                <p class="font-body-md text-body-md text-secondary">Portfolyonuzun performansını ve verilerini buradan yönetebilirsiniz.</p>
+            </div>
+            <div class="flex gap-stack_md">
+                <a class="flex items-center gap-2 bg-primary-container text-on-primary px-6 py-3 rounded-lg font-body-md text-body-md font-semibold hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-primary-container/20" href="/Admin/Project/Index">
+                    <span class="material-symbols-outlined">add</span>
+                    Yeni Proje Ekle
+                    </a>
+                <a class="flex items-center gap-2 bg-on-primary border border-primary-container text-primary-container px-6 py-3 rounded-lg font-body-md text-body-md font-semibold hover:bg-primary-container/5 transition-all active:scale-95" href="/Admin/CvFile/Index">
+                    <span class="material-symbols-outlined">upload</span>
+                    CV Yükle
+                    </a>
+            </div>
+        </div>
+        <!-- Stats Grid -->
+        @await Component.InvokeAsync("_CardsCount")
+        <!-- Dashboard Layout Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+            <!-- Recent Messages Table -->
+            @await Component.InvokeAsync("_RecentMessages")
+            <!-- Portfolio Health / Visualization Card -->
+            @await Component.InvokeAsync("_PortfolioCard")
+        </div>
+        <!-- Projects Grid (Asymmetric Bento) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+            @await Component.InvokeAsync("_LatestProject")
+            <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col justify-between">
+                <div>
+                    <span class="material-symbols-outlined text-primary-container mb-4 text-3xl">psychology</span>
+                    <h4 class="font-body-lg text-body-lg font-bold text-on-surface">Kişisel Gelişim</h4>
+                    <p class="font-body-md text-body-md text-secondary mt-2">Yeni yetenekler ekleyerek profilinizi güçlendirin.</p>
+                </div>
+                <a class="text-primary-container font-label-md text-label-md flex items-center gap-1 hover:gap-2 transition-all" href="/Admin/Skill/Index">
+                    Yeteneklere Git <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </a>
+            </div>
+            <div class="bg-on-secondary-fixed rounded-xl p-6 flex flex-col justify-between text-on-primary">
+                <div>
+                    <span class="material-symbols-outlined text-primary-container mb-4 text-3xl">rocket_launch</span>
+                    <h4 class="font-body-lg text-body-lg font-bold text-on-surface">Yeni Deneyimler</h4>
+                    <p class="font-body-md text-body-md text-secondary mt-2">Yeni deneyimler ekleyerek portfolionuzu güçlendirin.</p>
+                </div>
+                <a class="text-primary-container font-label-md text-label-md flex items-center gap-1 hover:gap-2 transition-all" href="/Admin/Experience/Index">
+                    Deneyimlere Git <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </a>
+             
+            </div>
+        </div>
+    </div>
+</main>
+

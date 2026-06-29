@@ -13,6 +13,7 @@ namespace EntityLayer.Concrete
         public string? CoverImageURL { get; set; }
         public string Description { get; set; }
         public string ProjectUrl{ get; set; }
+        public string? TechStack { get; set; }
         public bool IsActive { get; set; }
         public int SkillId { get; set; }
         public Skill? Skill { get; set; }
