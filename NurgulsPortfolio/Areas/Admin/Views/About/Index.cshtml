@@ -1,0 +1,180 @@
+﻿@model AboutPageViewDTO
+@{
+    ViewData["Title"] = "Hakkımda";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main class="ml-[240px] pt-16 min-h-screen">
+    <div class="max-w-[1280px] mx-auto p-container_padding space-y-stack_lg">
+
+        <!-- Page Title -->
+        <h1 class="font-h1 text-h1 text-on-surface ">Hakkımda Bilgileri</h1>
+
+            <form asp-action="Index" asp-controller="About" asp-area="Admin" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" asp-for="AboutMe.Id" />
+            <input type="hidden" asp-for="AboutMe.ImageURL" />
+            <input type="hidden" asp-for="Contact.Id" />
+            
+                <div class="lg:col-span-1 bg-surface-container-lowest border border-outline-variant rounded-xl p-stack_lg flex flex-col items-center">
+                    <h3 class="font-h3 text-h3 text-on-surface mb-6 self-start">Profil Fotoğrafı</h3>
+                    <div class="relative group">
+                        <div class="h-48 w-48 rounded-full border-4 border-surface-container overflow-hidden bg-surface-dim">
+                        <img id="avatarPreview" src="@(string.IsNullOrEmpty(Model.AboutMe?.ImageURL) ? "/woman.png" : "/aboutMeImages/" + Model.AboutMe.ImageURL)"
+                                 class="w-full h-full object-cover" />
+                        </div>
+                        <label class="absolute bottom-2 right-2 bg-primary-container text-on-primary rounded-full p-3 cursor-pointer shadow-lg active:scale-95 transition-transform hover:brightness-110"
+                               for="photo-upload">
+                            <span class="material-symbols-outlined">photo_camera</span>
+                            <input class="hidden" id="photo-upload" type="file" asp-for="AboutMe.ImageFile" />
+                        </label>
+                    </div>
+                    <p class="text-body-md text-secondary mt-6 text-center">JPG, GIF veya PNG. Maksimum 2MB.</p>
+                </div>
+            <div class="space-y-stack_lg">
+
+        
+                <div class="lg:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-stack_lg">
+                    <h3 class="font-h3 text-h3 text-on-surface mb-4">İş Durumu</h3>
+                    <div class="flex items-center gap-6">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" asp-for="AboutMe.WorkStatus" value="1"
+                                   class="w-4 h-4 accent-primary-container" />
+                            <div>
+                                <span class="font-body-md text-body-md text-on-surface font-semibold">İş Alımlarına Açığım</span>
+                                <p class="text-body-md text-secondary text-sm">Profilde "Açık" rozeti görünür</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" asp-for="AboutMe.WorkStatus" value="0"
+                                   class="w-4 h-4 accent-primary-container" />
+                            <div>
+                                <span class="font-body-md text-body-md text-on-surface font-semibold">İş Sahibiyim</span>
+                                <p class="text-body-md text-secondary text-sm">Profilde rozet görünmez</p>
+                            </div>
+                        </label>
+                    </div>
+                
+                    <div class="mt-4">
+                        @if (Model.AboutMe?.WorkStatus == "1")
+                        {
+                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
+                                <span class="material-symbols-outlined text-[16px]">circle</span>
+                                Şu an iş alımlarına açık
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container text-secondary text-sm font-semibold">
+                                <span class="material-symbols-outlined text-[16px]">circle</span>
+                                Şu an iş alımlarına kapalı
+                            </span>
+                        }
+                    </div>
+                </div>
+
+          
+                <div class="lg:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-stack_lg">
+                    <h3 class="font-h3 text-h3 text-on-surface mb-6">Temel Bilgiler</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-stack_md">
+                        <div class="space-y-1">
+                            <label class="font-label-md text-label-md text-on-surface-variant">Ad</label>
+                            <input class="w-full bg-surface border border-outline-variant rounded-lg py-2 px-3 text-body-md focus:ring-primary-container focus:border-primary-container"
+                                   type="text" asp-for="AboutMe.Name" placeholder="Adınız" />
+                        </div>
+                        <div class="space-y-1">
+                            <label class="font-label-md text-label-md text-on-surface-variant">Soyad</label>
+                            <input class="w-full bg-surface border border-outline-variant rounded-lg py-2 px-3 text-body-md focus:ring-primary-container focus:border-primary-container"
+                                   type="text" asp-for="AboutMe.Surname" placeholder="Soyadınız" />
+                        </div>
+                        <div class="space-y-1">
+                            <label class="font-label-md text-label-md text-on-surface-variant">Ünvan / Meslek</label>
+                            <input class="w-full bg-surface border border-outline-variant rounded-lg py-2 px-3 text-body-md focus:ring-primary-container focus:border-primary-container"
+                                   type="text" asp-for="AboutMe.Title" placeholder="Full-Stack Yazılım Geliştirici" />
+                        </div>
+                        <div class="space-y-1">
+                            <label class="font-label-md text-label-md text-on-surface-variant">Doğum Tarihi</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-[20px]">calendar_today</span>
+                                <input class="w-full bg-surface border border-outline-variant rounded-lg py-2 pl-10 pr-3 text-body-md focus:ring-primary-container focus:border-primary-container"
+                                       type="date" asp-for="AboutMe.Birthday" />
+                            </div>
+                        </div>
+                        <div class="md:col-span-2 space-y-1">
+                            <label class="font-label-md text-label-md text-on-surface-variant">Kısa Tanıtım Metni</label>
+                            <textarea class="w-full bg-surface border border-outline-variant rounded-lg py-2 px-3 text-body-md focus:ring-primary-container focus:border-primary-container"
+                                      rows="3" asp-for="AboutMe.Brief" placeholder="Kendinizi kısaca tanıtın..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+           
+                <div class="lg:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-stack_lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-h3 text-h3 text-on-surface">Detaylı Biyografi</h3>
+                    </div>
+                    <textarea class="w-full bg-surface border border-outline-variant rounded-lg py-3 px-4 text-body-md focus:ring-primary-container focus:border-primary-container leading-relaxed"
+                              rows="8" asp-for="AboutMe.Description" placeholder="Detaylı hakkımda metni..."></textarea>
+                </div>
+
+
+                <div class="lg:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-stack_lg">
+                    <h3 class="font-h3 text-h3 text-on-surface mb-6">İletişim Bilgileri</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-stack_md">
+                        <div class="space-y-1">
+                            <label class="font-label-md text-label-md text-on-surface-variant">E-posta</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-[20px]">mail</span>
+                                <input class="w-full bg-surface border border-outline-variant rounded-lg py-2 pl-10 pr-3 text-body-md focus:ring-primary-container focus:border-primary-container"
+                                       type="email" asp-for="Contact.Mail" placeholder="ornek@mail.com" />
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="font-label-md text-label-md text-on-surface-variant">Konum</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-[20px]">location_on</span>
+                                <input class="w-full bg-surface border border-outline-variant rounded-lg py-2 pl-10 pr-3 text-body-md focus:ring-primary-container focus:border-primary-container"
+                                       type="text" asp-for="Contact.City" placeholder="İstanbul, Türkiye" />
+                            </div>
+                        </div>
+                        <div class="md:col-span-2 space-y-1">
+                            <label class="font-label-md text-label-md text-on-surface-variant">Açıklama</label>
+                            <textarea class="w-full bg-surface border border-outline-variant rounded-lg py-2 px-3 text-body-md focus:ring-primary-container focus:border-primary-container"
+                                      rows="4" asp-for="Contact.Description" placeholder="İletişim sayfası için kısa açıklama metni..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="flex items-center justify-end gap-stack_md pt-6 border-t border-outline-variant mt-6">
+                <a asp-action="Index" asp-controller="Dashboard" asp-area="Admin"
+                   class="px-8 py-2.5 bg-white border border-outline-variant text-on-secondary-fixed-variant font-semibold rounded-lg hover:bg-surface-container-high transition-colors active:scale-95 duration-150">
+                    İptal
+                </a>
+                <button type="submit"
+                        class="px-10 py-2.5 bg-primary-container text-white font-bold rounded-lg hover:brightness-110 shadow-sm transition-all active:scale-95 duration-150">
+                    Kaydet
+                </button>
+            </div>
+         
+        </form>
+    </div>
+
+</main>
+
+
+    <script>
+    
+        document.getElementById('photo-upload')?.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('avatarPreview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>

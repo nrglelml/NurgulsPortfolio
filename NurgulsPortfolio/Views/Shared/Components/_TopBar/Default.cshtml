@@ -1,13 +1,14 @@
-﻿
+﻿@model AboutMe
 @{
     Layout = null;
 }
-
 <div class="flex items-center gap-3 pl-4 border-l border-outline-variant">
     <div class="text-right hidden sm:block">
-        <p class="font-label-md text-label-md text-on-surface">Nurgül Elmalı</p>
+        <p class="font-label-md text-label-md text-on-surface">
+            @(Model == null || string.IsNullOrEmpty(Model.Name) ? "Admin" : Model.Name + " " + Model.Surname)
+        </p>
         <p class="font-label-md text-label-md text-secondary opacity-70">Admin</p>
-
     </div>
-    <img class="w-10 h-10 rounded-full border-2 border-primary-container/20 object-cover" data-alt="A professional headshot of a modern software engineer in a bright, minimalist office setting. He is wearing a smart-casual dark blue shirt, smiling warmly at the camera. The lighting is soft and natural, coming from a large window out of frame. The background is slightly blurred, showing books and a clean desk, maintaining a professional yet approachable light-mode aesthetic." src="/woman.png" />
+    <img class="w-10 h-10 rounded-full border-2 border-primary-container/20 object-cover"
+         src="@(Model == null || string.IsNullOrEmpty(Model.ImageURL) ? "/woman.png" : "/aboutMeImages/" + Model.ImageURL)" />
 </div>
