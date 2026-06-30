@@ -12,8 +12,7 @@ namespace BusinessLayer.ValidationRules
     {
         public ExperienceValidator()
         {
-            RuleFor(x => x.Title).NotEmpty().WithMessage("Başlık alanı boş bırakılamaz");
-            RuleFor(x => x.Description).NotEmpty().WithMessage("Açıklama alanı boş bırakılamaz");
+            RuleFor(x => x.Position).NotEmpty().WithMessage("Pozisyon alanı boş bırakılamaz");
             RuleFor(x => x.Location).NotEmpty().WithMessage("Konum alanı boş bırakılamaz");
             RuleFor(x => x.StartDate).NotEmpty().WithMessage("Başlangıç tarihi alanı boş bırakılamaz");
         }
