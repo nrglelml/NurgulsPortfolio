@@ -39,6 +39,11 @@ namespace BusinessLayer.Concrete
             return _projectImageDal.GetList();
         }
 
+        public List<ProjectImage> TGetListByProjectId(int projectId)
+        {
+            return _projectImageDal.GetListByFilter(x => x.ProjectId == projectId);
+        }
+
         public List<ProjectImage> TGetListByStatus(bool filter)
         {
             return _projectImageDal.GetListByFilter(x => x.IsActive == filter);

@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.Concrete;
 using DataAccessLayer.Repository;
 using EntityLayer.Concrete;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.EntityFramework
 {
-    public class EfProjectImageDal:GenericRepository<ProjectImage>,IProjectImageDal
+    public class EfProjectImageDal : GenericRepository<ProjectImage>, IProjectImageDal
     {
     }
 }

@@ -9,5 +9,6 @@ namespace BusinessLayer.Abstract
 {
     public interface IProjectImageService:IGenericService<ProjectImage>
     {
+        public List<ProjectImage> TGetListByProjectId(int projectId);
     }
 }

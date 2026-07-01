@@ -1,0 +1,187 @@
+﻿@model List<SocialMedia>
+@{
+    ViewData["Title"] = "Sosyal Medya Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main class="ml-[240px] pt-16 min-h-screen">
+    <div class="p-container_padding max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="font-h1 text-h1 text-on-surface">Sosyal Medya Yönetimi</h2>
+            <button class="bg-primary-container text-on-primary px-6 py-2.5 rounded-lg flex items-center gap-2 font-semibold shadow-sm hover:opacity-90 active:scale-95 transition-all"
+                    onclick="toggleModal(true)">
+                <span class="material-symbols-outlined">add</span>
+                Sosyal Medya Ekle
+            </button>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-surface-container border-b border-outline-variant">
+                                <th class="px-6 py-4 font-semibold text-body-md text-on-surface">Platform</th>
+                                <th class="px-6 py-4 font-semibold text-body-md text-on-surface">URL</th>
+                                <th class="px-6 py-4 font-semibold text-body-md text-on-surface text-right">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant">
+                            @foreach (var item in Model)
+                            {
+                                <tr class="hover:bg-surface-container-low transition-colors">
+                                    <td class="px-6 py-4">
+                                        <p class="font-semibold text-body-md text-on-surface">@item.MediaName</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <a href="@item.MediaURL" target="_blank"
+                                           class="text-primary text-body-md hover:underline">@item.MediaURL</a>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex justify-end gap-2">
+                                            <button class="p-2 text-on-tertiary-fixed-variant hover:text-primary transition-colors"
+                                                    onclick="openEditModal(@item.Id, '@item.MediaName', '@item.MediaURL')">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                            <form asp-action="DeleteSocialMedia" asp-controller="SocialMedia" asp-area="Admin"
+                                                  method="post" class="inline"
+                                                  onsubmit="return confirm('Silmek istediğinize emin misiniz?')">
+                                                <input type="hidden" name="id" value="@item.Id" />
+                                                <button type="submit" class="p-2 text-on-tertiary-fixed-variant hover:text-error transition-colors">
+                                                    <span class="material-symbols-outlined">delete</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="px-6 py-4 border-t border-outline-variant">
+                    <p class="text-on-surface-variant text-body-md">Toplam @Model.Count kayıt gösteriliyor.</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl overflow-hidden">
+                <div class="flex flex-col items-center justify-center py-32 px-10">
+                    <h3 class="font-h2 text-h2 text-on-surface mb-2">Henüz kayıt bulunmuyor</h3>
+                    <p class="text-body-lg text-secondary text-center max-w-md mb-8">
+                        Sosyal medya hesaplarınızı eklemek için başlayın.
+                    </p>
+                    <button class="flex items-center space-x-2 border-2 border-primary-container text-primary px-8 py-3 rounded-xl font-bold hover:bg-primary-container hover:text-on-primary-container transition-all"
+                            onclick="toggleModal(true)">
+                        <span class="material-symbols-outlined">add_circle</span>
+                        <span>İlk Kaydı Ekleyin</span>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</main>
+
+<!-- Add Modal -->
+<div class="fixed inset-0 z-[60] hidden overflow-y-auto" id="addModal" role="dialog">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-on-surface/40 backdrop-blur-sm" onclick="toggleModal(false)"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen">​</span>
+        <div class="inline-block align-bottom bg-surface-container-lowest rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-outline-variant">
+            <div class="px-8 pt-8 pb-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-h2 font-h2 text-on-surface">Sosyal Medya Ekle</h3>
+                    <button class="text-on-surface-variant hover:text-on-surface transition-all" onclick="toggleModal(false)">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <form asp-action="AddSocialMedia" asp-controller="SocialMedia" asp-area="Admin" method="post" class="space-y-6">
+                    <div>
+                        <label class="block text-body-md font-semibold text-on-surface mb-2">Platform Adı</label>
+                        <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2.5 text-body-md outline-none focus:ring-2 focus:ring-primary-container focus:border-primary-container transition-all"
+                               name="MediaName" placeholder="Örn: LinkedIn" type="text" required />
+                    </div>
+                    <div>
+                        <label class="block text-body-md font-semibold text-on-surface mb-2">URL</label>
+                        <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2.5 text-body-md outline-none focus:ring-2 focus:ring-primary-container focus:border-primary-container transition-all"
+                               name="MediaURL" placeholder="https://linkedin.com/in/..." type="url" required />
+                    </div>
+                    <div class="pt-4 border-t border-outline-variant flex gap-4">
+                        <button type="button" class="flex-1 px-6 py-3 border border-outline-variant text-on-surface font-semibold rounded-lg hover:bg-surface-container-high transition-all"
+                                onclick="toggleModal(false)">
+                            İptal
+                        </button>
+                        <button type="submit" class="flex-1 px-6 py-3 bg-primary-container text-on-primary font-semibold rounded-lg shadow-sm hover:opacity-90 transition-all">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="fixed inset-0 z-[60] hidden overflow-y-auto" id="editModal" role="dialog">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-on-surface/40 backdrop-blur-sm" onclick="toggleEditModal(false)"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen">​</span>
+        <div class="inline-block align-bottom bg-surface-container-lowest rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-outline-variant">
+            <div class="px-8 pt-8 pb-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-h2 font-h2 text-on-surface">Sosyal Medya Düzenle</h3>
+                    <button class="text-on-surface-variant hover:text-on-surface transition-all" onclick="toggleEditModal(false)">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <form asp-action="EditSocialMedia" asp-controller="SocialMedia" asp-area="Admin" method="post" class="space-y-6">
+                    <input type="hidden" name="Id" id="editId" />
+                    <div>
+                        <label class="block text-body-md font-semibold text-on-surface mb-2">Platform Adı</label>
+                        <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2.5 text-body-md outline-none focus:ring-2 focus:ring-primary-container focus:border-primary-container transition-all"
+                               name="MediaName" id="editMediaName" type="text" required />
+                    </div>
+                    <div>
+                        <label class="block text-body-md font-semibold text-on-surface mb-2">URL</label>
+                        <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2.5 text-body-md outline-none focus:ring-2 focus:ring-primary-container focus:border-primary-container transition-all"
+                               name="MediaURL" id="editMediaURL" type="url" required />
+                    </div>
+                    <div class="pt-4 border-t border-outline-variant flex gap-4">
+                        <button type="button" class="flex-1 px-6 py-3 border border-outline-variant text-on-surface font-semibold rounded-lg hover:bg-surface-container-high transition-all"
+                                onclick="toggleEditModal(false)">
+                            İptal
+                        </button>
+                        <button type="submit" class="flex-1 px-6 py-3 bg-primary-container text-on-primary font-semibold rounded-lg shadow-sm hover:opacity-90 transition-all">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleModal(show) {
+        const modal = document.getElementById('addModal');
+        modal.classList.toggle('hidden', !show);
+        document.body.style.overflow = show ? 'hidden' : 'auto';
+    }
+
+    function toggleEditModal(show) {
+        const modal = document.getElementById('editModal');
+        modal.classList.toggle('hidden', !show);
+        document.body.style.overflow = show ? 'hidden' : 'auto';
+    }
+
+    function openEditModal(id, mediaName, mediaURL) {
+        document.getElementById('editId').value = id;
+        document.getElementById('editMediaName').value = mediaName;
+        document.getElementById('editMediaURL').value = mediaURL;
+        toggleEditModal(true);
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            toggleModal(false);
+            toggleEditModal(false);
+        }
+    });
+</script>

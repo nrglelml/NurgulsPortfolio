@@ -1,6 +1,8 @@
 ﻿using BusinessLayer.Abstract;
+using BusinessLayer.ValidationRules;
 using DTOLayer;
 using EntityLayer.Concrete;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NurgulsPortfolio.Areas.Admin.Controllers
@@ -42,8 +44,23 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
         public IActionResult AddSkill(Skill p)
         {
             p.IsActive = true;
-            _skillService.TAdd(p);
-            return RedirectToAction("Index");
+            SkillValidator validationRules = new SkillValidator();
+            ValidationResult result = validationRules.Validate(p);
+
+            if (result.IsValid)
+            {
+                _skillService.TAdd(p);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                }
+                return RedirectToAction("Index");
+            }
+            
         }
         [HttpPost]
         public IActionResult MakeActive(int id)
@@ -65,9 +82,23 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
         public IActionResult EditSkill(Skill p)
         {
             var skill = _skillService.TGetByID(p.Id);
-            skill.SkillTitle = p.SkillTitle;
-            _skillService.TUpdate(skill);
-            return RedirectToAction("Index");
+            SkillValidator validationRules = new SkillValidator();
+            ValidationResult result = validationRules.Validate(p);
+
+            if (result.IsValid)
+            {
+                skill.SkillTitle = p.SkillTitle;
+                _skillService.TUpdate(skill);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                }
+                return RedirectToAction("Index");
+            }
         }
     }
 }

@@ -1,0 +1,184 @@
+﻿@model List<ProjectImageAddEditDTO>
+@{
+    ViewData["Title"] = "Proje Görselleri";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+    <main class="ml-[240px] flex-1 flex flex-col min-w-0">
+        <!-- Content Canvas -->
+        <section class="p-container_padding max-w-[1280px] w-full mx-auto">
+            <!-- Breadcrumb & Header -->
+            
+        <nav class="mb-6">
+            <div >
+                <div>
+                    <br />
+                    <br />
+                    <h1 class="font-h1 text-h1 text-on-surface">Proje Görselleri</h1>
+                    <p class="text-secondary font-body-md mt-1">@ViewBag.ProjectTitle projesi için medya yönetimi.</p>
+                </div>
+            </div>
+        </nav>
+
+            <!-- Dropzone Section -->
+          <form asp-action="AddImage" asp-controller="ProjectImage" asp-area="Admin" enctype="multipart/form-data" method="post">
+            <div class="mb-10 p-10 border-2 border-dashed border-outline-variant rounded-xl bg-surface-container-low flex flex-col items-center justify-center cursor-pointer transition-all hover:border-primary-container group" id="dropzone">
+                <div class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-[32px]">cloud_upload</span>
+                </div>
+                <input type="hidden" name="ProjectId" value="@ViewBag.ProjectId" />
+                <h3 class="font-h3 text-h3 text-on-surface mb-1">Görsel yüklemek için tıklayın veya sürükleyin</h3>
+                <p class="text-secondary font-body-md">PNG, JPG veya JPEG</p>
+                <input class="hidden" id="fileInput" name="ImageFile" type="file" />
+            </div>
+          </form>
+        @if(Model !=null && Model.Any())
+        {
+            <!-- Gallery Bento Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter" id="gallery-grid">
+                <!-- Gallery Items -->
+                @foreach (var item in Model)
+                {
+                    <div class="group relative aspect-[4/3] bg-white border border-outline-variant rounded-xl overflow-hidden cursor-move transition-all hover:shadow-lg">
+                        <img class="w-full h-full object-cover" data-alt="A clean, minimalist high-fidelity UI screenshot of an e-commerce dashboard featuring vibrant analytics charts and a dark sidebar. The image is crisp and professional, presented in a high-resolution gallery format with modern corporate aesthetic lighting and soft shadows." src="@(string.IsNullOrEmpty(item.ImageURL) ? "/placeholder.png" : item.ImageURL)" />
+                        <div class="absolute top-3 left-3 bg-primary-container text-white text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">@if(item.IsActive) {
+                        <text>Aktif</text>
+                    } else
+                    {
+
+                        <text>Pasif</text>
+                    }
+    </div>
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+                        <div class="flex justify-between items-center">
+                            @if (item.IsActive)
+                            {
+                                <form asp-action="MakePassive" asp-controller="ProjectImage" asp-area="Admin" method="post" class="inline">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="projectId" value="@Context.Request.RouteValues["id"]" />
+                                    <button type="submit" class="bg-white/20 backdrop-blur-md text-white border border-white/30 px-3 py-1.5 rounded-lg text-body-md font-semibold hover:bg-white hover:text-primary transition-all">Pasif Yap</button>
+                                </form>
+
+                            }
+                            else
+                            {
+                                <form asp-action="MakeActive" asp-controller="ProjectImage" asp-area="Admin" method="post" class="inline">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="projectId" value="@Context.Request.RouteValues["id"]" />
+                                    <button type="submit" class="bg-white/20 backdrop-blur-md text-white border border-white/30 px-3 py-1.5 rounded-lg text-body-md font-semibold hover:bg-white hover:text-primary transition-all">Aktif Yap</button>
+                                </form>
+                            }
+                            <form asp-action="DeleteImage" asp-controller="ProjectImage" asp-area="Admin" method="post" class="inline"
+                                  onsubmit="return confirm('Bu projeyi silmek istediğinize emin misiniz?')">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="projectId" value="@Context.Request.RouteValues["id"]" />
+                                <button type="submit" class="w-9 h-9 flex items-center justify-center bg-red-500/20 backdrop-blur-md border border-red-500/40 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+            </div>
+        }
+        else
+        {
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl overflow-hidden">
+                <div class="flex flex-col items-center justify-center py-32 px-10">
+                    <h3 class="font-h2 text-h2 text-on-surface mb-2">Henüz kayıt bulunmuyor</h3>
+                    <p class="text-body-lg text-secondary text-center max-w-md mb-8">Projelerinizin görselleri için ilk kaydınızı hemen ekleyin.</p>
+                </div>
+            </div>
+        }
+    </section>
+    </main>
+    <script>
+        // Simple Interaction Logic
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        dropzone.addEventListener('click', () => fileInput.click());
+
+         document.getElementById('fileInput').addEventListener('change', function() {
+        this.closest('form').submit();
+    });
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dropzone-active');
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.remove('dropzone-active');
+            });
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                alert(`${files.length} görsel yükleniyor...`);
+            }
+        });
+
+        // Basic reordering simulation (UI only)
+        const items = document.querySelectorAll('#gallery-grid > div');
+        let dragSrcEl = null;
+
+        function handleDragStart(e) {
+            this.style.opacity = '0.4';
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            this.classList.add('border-primary-container');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('border-primary-container');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            if (dragSrcEl != this) {
+                // Swap logic for demo purposes
+                let tempHTML = this.innerHTML;
+                this.innerHTML = dragSrcEl.innerHTML;
+                dragSrcEl.innerHTML = tempHTML;
+            }
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+            items.forEach(function (item) {
+                item.classList.remove('border-primary-container');
+            });
+        }
+
+        items.forEach(function(item) {
+            item.setAttribute('draggable', 'true');
+            item.addEventListener('dragstart', handleDragStart, false);
+            item.addEventListener('dragenter', handleDragEnter, false);
+            item.addEventListener('dragover', handleDragOver, false);
+            item.addEventListener('dragleave', handleDragLeave, false);
+            item.addEventListener('drop', handleDrop, false);
+            item.addEventListener('dragend', handleDragEnd, false);
+        });
+    </script>
+
