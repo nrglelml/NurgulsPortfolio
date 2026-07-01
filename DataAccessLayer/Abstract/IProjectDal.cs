@@ -9,5 +9,6 @@ namespace DataAccessLayer.Abstract
 {
     public interface IProjectDal:IGenericDal<Project>
     {
+        public List<Project> GetListWithSkill();
     }
 }

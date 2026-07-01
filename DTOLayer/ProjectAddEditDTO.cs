@@ -16,11 +16,9 @@ namespace DTOLayer
         public string? ProjectUrl { get; set; }
         public string? TechStack { get; set; }
         public bool IsActive { get; set; }
-        public int SkillId { get; set; }                 
+        public int SkillId { get; set; }
+        public string? SkillTitle { get; set; }
         public IFormFile? CoverImageFile { get; set; }
         public string? CoverImageURL { get; set; }
-
-        // Dropdown için — controller'dan View'a taşır
-        public List<SelectListItem>? SkillList { get; set; }
     }
 }

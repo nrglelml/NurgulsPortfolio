@@ -1,6 +1,8 @@
 ﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.Concrete;
 using DataAccessLayer.Repository;
 using EntityLayer.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,12 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.EntityFramework
 {
-    public class EfProjectDal:GenericRepository<Project>,IProjectDal
+    public class EfProjectDal : GenericRepository<Project>, IProjectDal
     {
+        public List<Project> GetListWithSkill()
+        {
+            using var c = new Context();
+            return c.Projects.Include(x => x.Skill).ToList();
+        }
     }
 }

@@ -43,6 +43,11 @@ namespace BusinessLayer.Concrete
             return _projectDal.GetListByFilter(x=>x.IsActive==filter);
         }
 
+        public List<Project> TGetListWithSkill()
+        {
+            return _projectDal.GetListWithSkill();
+        }
+
         public void TUpdate(Project t)
         {
             _projectDal.Update(t);
