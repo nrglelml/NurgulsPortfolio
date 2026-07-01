@@ -1,0 +1,103 @@
+﻿@model List<ContactMe>
+@{
+    ViewData["Title"] = "Mesajlar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main class="ml-[240px] p-container_padding">
+    <div class="p-container_padding max-w-[1280px] mx-auto">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-stack_lg gap-4">
+            <h1 class="font-h1 text-h1 text-on-surface">Gelen Mesajlar</h1>
+            
+        </div>
+
+
+    <div class="grid grid-cols-12 gap-gutter h-[calc(100vh-280px)] min-h-[600px]">
+        <div class="col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col shadow-sm">
+            <div class="p-4 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+                <span class="font-h3 text-h3">Gelen Kutusu</span>
+                <span class="bg-primary-container/10 text-primary-container text-[10px] px-2 py-0.5 rounded-full font-bold">@ViewBag.messages mesaj</span>
+            </div>
+            <div class="flex-1 overflow-y-auto">
+                @foreach (var item in Model)
+                {
+                    <div class="message-item p-4 border-b border-outline-variant hover:bg-surface-container transition-all cursor-pointer"
+                         onclick="showMessage(@item.Id, '@item.Name', '@item.Mail', '@item.Subject', '@item.MessageBody')">
+                        <div class="flex justify-between items-start mb-1">
+                            <h4 class="font-bold text-on-surface font-body-md">@item.Name</h4>
+                            
+                        </div>
+                        <p class="text-secondary text-body-md truncate mb-1">@item.Mail</p>
+                        <p class="text-secondary text-label-md truncate">@item.Subject</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Sağ Panel -->
+        <div class="col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col shadow-sm">
+            <!-- Boş durum -->
+            <div id="emptyDetail" class="flex-1 flex items-center justify-center flex-col gap-3 text-secondary">
+                <span class="material-symbols-outlined text-[48px]">mark_email_unread</span>
+                <p class="font-body-md">Görüntülemek için bir mesaj seçin</p>
+            </div>
+
+            <!-- Mesaj detayı -->
+            <div id="messageDetail" class="hidden flex-col h-full">
+                <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-white rounded-t-xl">
+                    <div class="flex items-center gap-4">
+                        <div class="h-12 w-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold text-h3" id="detailAvatar">
+                        </div>
+                        <div>
+                            <h3 class="font-h3 text-h3 text-on-surface" id="detailName"></h3>
+                            <p class="text-secondary text-body-md" id="detailMail"></p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                       
+                        <form id="deleteForm" asp-action="Delete" asp-controller="Messages" asp-area="Admin" method="post" class="inline"
+                              onsubmit="return confirm('Bu mesajı silmek istediğinize emin misiniz?')">
+                            <input type="hidden" name="id" id="deleteId" />
+                            <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-error-container text-error rounded-lg font-bold hover:opacity-90 transition-all">
+                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                <span class="font-body-md">Sil</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="flex-1 p-8 overflow-y-auto">
+                    <h2 class="text-h2 font-h2 text-on-surface mb-6 border-b border-outline-variant pb-4" id="detailSubject"></h2>
+                    <p class="text-on-surface font-body-lg text-body-lg" id="detailMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function showMessage(id, name, mail, subject, message) {
+        document.getElementById('emptyDetail').classList.add('hidden');
+        const detail = document.getElementById('messageDetail');
+        detail.classList.remove('hidden');
+        detail.classList.add('flex');
+        document.getElementById('deleteId').value = id;
+        document.getElementById('detailAvatar').textContent = name.charAt(0).toUpperCase();
+        document.getElementById('detailName').textContent = name;
+        document.getElementById('detailMail').textContent = mail;
+        document.getElementById('detailSubject').textContent = subject;
+        document.getElementById('detailMessage').textContent = message;
+
+        // Aktif mesajı işaretle
+        document.querySelectorAll('.message-item').forEach(i => {
+            i.classList.remove('bg-primary-container/5', 'border-l-4', 'border-l-primary-container');
+        });
+        event.currentTarget.classList.add('bg-primary-container/5', 'border-l-4', 'border-l-primary-container');
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.getElementById('messageDetail').classList.add('hidden');
+            document.getElementById('emptyDetail').classList.remove('hidden');
+        }
+    });
+</script>

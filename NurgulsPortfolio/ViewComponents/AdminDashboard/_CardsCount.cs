@@ -10,8 +10,7 @@ namespace NurgulsPortfolio.ViewComponents.AdminDashboard
         {
             ViewBag.projects = c.Projects.Count();
             ViewBag.projectsT = c.Projects.Where(x => x.IsActive == true).Count();
-            ViewBag.messages = c.ContactMes.Where(x => x.IsActive == true).Count();
-            ViewBag.messagesT = c.ContactMes.Count();
+            ViewBag.messages = c.ContactMes.Count();
             ViewBag.skills = c.Skills.Count();
             ViewBag.skillsT = c.Skills.Where(x => x.IsActive == true).Count();
             ViewBag.cv = c.CvFiles.Count();

@@ -13,6 +13,5 @@ namespace EntityLayer.Concrete
         public string? Mail { get; set; }
         public string Subject { get; set; }
         public string MessageBody { get; set; }
-        public bool IsActive { get; set; }
     }
 }

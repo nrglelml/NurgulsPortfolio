@@ -38,7 +38,7 @@ namespace BusinessLayer.Concrete
 
         public List<ContactMe> TGetListByStatus(bool filter)
         {
-            return _contactMeDal.GetListByFilter(x=>x.IsActive==filter);    
+            throw new NotImplementedException();
         }
 
         public void TUpdate(ContactMe t)

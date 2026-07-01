@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace NurgulsPortfolio.ViewComponents.AdminDashboard
 {
@@ -9,7 +10,7 @@ namespace NurgulsPortfolio.ViewComponents.AdminDashboard
         Context c= new Context();
         public IViewComponentResult Invoke()
         {
-            var value = c.Projects.OrderByDescending(x => x.Id).FirstOrDefault();
+            var value = c.Projects.Include(x => x.Skill).OrderByDescending(x => x.Id).FirstOrDefault();
             return View(value);
         }
     }
