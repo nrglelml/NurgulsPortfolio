@@ -1,0 +1,72 @@
+﻿@model List<Testimonials>
+@{
+    ViewData["Title"] = "Referanslar Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main class="ml-[240px] pt-16 min-h-screen">
+    <div class="p-container_padding max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="font-h1 text-h1 text-on-surface">Referanslar Yönetimi</h2>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-surface-container border-b border-outline-variant">
+                                <th class="px-6 py-4 font-semibold text-body-md text-on-surface">Kullanıcı</th>
+                                <th class="px-6 py-4 font-semibold text-body-md text-on-surface">Başlık</th>
+                                <th class="px-6 py-4 font-semibold text-body-md text-on-surface">Mesaj</th>
+                                <th class="px-6 py-4 font-semibold text-body-md text-on-surface text-right">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant">
+                            @foreach (var item in Model)
+                            {
+                                <tr class="hover:bg-surface-container-low transition-colors">
+                                    <td class="px-6 py-4">
+                                        <p class="font-semibold text-body-md text-on-surface">@item.Name</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="font-semibold text-body-md text-on-surface">@item.Title</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="font-semibold text-body-md text-on-surface">@item.MessageBody</p>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex justify-end gap-2">
+
+                                            <form asp-action="DeleteTestimonial" asp-controller="Testimonial" asp-area="Admin"
+                                                  method="post" class="inline"
+                                                  onsubmit="return confirm('Silmek istediğinize emin misiniz?')">
+                                                <input type="hidden" name="id" value="@item.Id" />
+                                                <button type="submit" class="p-2 text-on-tertiary-fixed-variant hover:text-error transition-colors">
+                                                    <span class="material-symbols-outlined">delete</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="px-6 py-4 border-t border-outline-variant">
+                    <p class="text-on-surface-variant text-body-md">Toplam @Model.Count kayıt gösteriliyor.</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl overflow-hidden">
+                <div class="flex flex-col items-center justify-center py-32 px-10">
+                    <h3 class="font-h2 text-h2 text-on-surface mb-2">Henüz kayıt bulunmuyor</h3>
+                </div>
+            </div>
+        }
+    </div>
+</main>
+
