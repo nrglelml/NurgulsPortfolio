@@ -1,0 +1,291 @@
+﻿@model List<Certificate>
+@{
+    ViewData["Title"] = "Sertifika Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main class="ml-[240px] pt-16 min-h-screen">
+    <div class="p-container_padding max-w-[1280px] mx-auto">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-stack_lg gap-4">
+            <h1 class="font-h1 text-h1 text-on-surface">Sertifikalar</h1>
+            <button class="bg-primary-container text-on-primary px-6 py-3 rounded-xl font-h3 text-h3 flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-primary-container/20"
+                    onclick="document.getElementById('add-modal').classList.remove('hidden')">
+                <span class="material-symbols-outlined">add</span>
+                Sertifika Ekle
+            </button>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                @foreach (var item in Model)
+                {
+                    <div class="group bg-surface-container-lowest rounded-2xl border border-outline-variant hover:shadow-xl transition-all duration-300 flex flex-col h-full overflow-hidden">
+                        <!-- Renkli üst alan -->
+                        <div class="h-2 w-full" style="background-color: @(item.IconBgColor ?? "#F97316")"></div>
+
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg flex items-center justify-center"
+                                         style="background-color: @(item.IconBgColor ?? "#fff3ee")">
+                                        <span class="material-symbols-outlined text-white">@(item.IconClass ?? "workspace_premium")</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-body-md text-on-surface">@item.Issuer</p>
+                                        <p class="text-label-md text-secondary">@item.Category</p>
+                                    </div>
+                                </div>
+                                @if (item.IsActive)
+                                {
+                                    <span class="text-green-600 font-label-md bg-green-50 px-2 py-0.5 rounded text-[10px] border border-green-100">AKTİF</span>
+                                }
+                                else
+                                {
+                                    <span class="text-tertiary font-label-md bg-tertiary-fixed px-2 py-0.5 rounded text-[10px] border border-outline-variant">PASİF</span>
+                                }
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(item.CredentialId))
+                            {
+                                <p class="text-label-md text-secondary mb-1">ID: @item.CredentialId</p>
+                            }
+                            <div class="flex gap-4 text-label-md text-secondary mt-1">
+                                @if (item.IssueDate != null)
+                                {
+                                    <span>Verildi: @item.IssueDate.Value.ToString("MMM yyyy")</span>
+                                }
+                                @if (item.ExpiryDate != null)
+                                {
+                                    <span>Bitiş: @item.ExpiryDate.Value.ToString("MMM yyyy")</span>
+                                }
+                                else
+                                {
+                                    <span class="text-green-600 font-semibold">Süresiz Geçerli</span>
+                                }
+                            </div>
+
+                            <div class="mt-auto pt-4 border-t border-outline-variant flex items-center justify-between">
+                                <div class="flex gap-1">
+                                    @if (!string.IsNullOrEmpty(item.CredentialURL))
+                                    {
+                                        <a href="@item.CredentialURL" target="_blank"
+                                           class="p-2 text-secondary hover:text-primary transition-colors hover:bg-primary/10 rounded-lg" title="Görüntüle">
+                                            <span class="material-symbols-outlined">open_in_new</span>
+                                        </a>
+                                    }
+                                    @if (item.IsActive)
+                                    {
+                                        <form asp-action="MakePassive" asp-controller="Certificate" asp-area="Admin" method="post" class="inline">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <button type="submit" class="p-2 text-secondary hover:text-primary transition-colors hover:bg-primary/10 rounded-lg" title="Pasif Yap">
+                                                <span class="material-symbols-outlined">toggle_on</span>
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="MakeActive" asp-controller="Certificate" asp-area="Admin" method="post" class="inline">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <button type="submit" class="p-2 text-secondary hover:text-success transition-colors hover:bg-primary/10 rounded-lg" title="Aktif Yap">
+                                                <span class="material-symbols-outlined">toggle_off</span>
+                                            </button>
+                                        </form>
+                                    }
+                                    <button class="p-2 text-secondary hover:text-primary transition-colors hover:bg-primary/10 rounded-lg"
+                                            title="Düzenle"
+                                            onclick="openEditModal(@item.Id, '@item.Issuer', '@item.Category', '@item.IconClass', '@item.IconBgColor', '@item.CredentialURL', '@item.CredentialId', '@(item.IssueDate?.ToString("yyyy-MM-dd"))', '@(item.ExpiryDate?.ToString("yyyy-MM-dd"))')">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>
+                                </div>
+                                <form asp-action="DeleteCertificate" asp-controller="Certificate" asp-area="Admin" method="post" class="inline"
+                                      onsubmit="return confirm('Silmek istediğinize emin misiniz?')">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button type="submit" class="text-error hover:bg-error-container/50 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 font-label-md text-label-md">
+                                        <span class="material-symbols-outlined text-sm">delete</span>
+                                        Sil
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl overflow-hidden">
+                <div class="flex flex-col items-center justify-center py-32 px-10">
+                    <h3 class="font-h2 text-h2 text-on-surface mb-2">Henüz kayıt bulunmuyor</h3>
+                    <p class="text-body-lg text-secondary text-center max-w-md mb-8">Sertifikalarınızı eklemek için başlayın.</p>
+                    <button class="flex items-center space-x-2 border-2 border-primary-container text-primary px-8 py-3 rounded-xl font-bold hover:bg-primary-container hover:text-on-primary-container transition-all"
+                            onclick="document.getElementById('add-modal').classList.remove('hidden')">
+                        <span class="material-symbols-outlined">add_circle</span>
+                        <span>İlk Sertifikayı Ekleyin</span>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</main>
+
+<!-- Add Modal -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-on-surface/40 backdrop-blur-sm hidden" id="add-modal">
+    <div class="bg-surface w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden">
+        <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+            <h2 class="font-h2 text-h2 text-on-surface">Sertifika Ekle</h2>
+            <button class="p-2 hover:bg-surface-container-high rounded-full transition-colors"
+                    onclick="document.getElementById('add-modal').classList.add('hidden')">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <form asp-action="AddCertificate" asp-controller="Certificate" asp-area="Admin" method="post">
+            <div class="p-8 space-y-4 overflow-y-auto max-h-[500px]">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">Veren Kurum</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="Issuer" placeholder="Örn: Microsoft" type="text" required />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">Kategori</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="Category" placeholder="Örn: Cloud" type="text" required />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">İkon Sınıfı</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="IconClass" placeholder="Örn: workspace_premium" type="text" />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">İkon Arka Plan Rengi</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="IconBgColor" placeholder="#F97316" type="color" />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">Credential ID</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="CredentialId" placeholder="ABC123" type="text" required />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">Credential URL</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="CredentialURL" placeholder="https://..." type="url" required />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">Verilme Tarihi</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="IssueDate" type="date" />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">
+                            Bitiş Tarihi
+                            <span class="text-secondary font-normal">(opsiyonel — boş bırakılırsa süresiz geçerli)</span>
+                        </label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="ExpiryDate" id="editExpiryDate" type="date" />
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 border-t border-outline-variant bg-surface-container-lowest flex gap-3 justify-end">
+                <button type="button" class="px-6 py-2.5 rounded-xl border border-outline-variant text-on-surface hover:bg-surface-container-high transition-all font-label-md"
+                        onclick="document.getElementById('add-modal').classList.add('hidden')">
+                    İptal
+                </button>
+                <button type="submit" class="px-8 py-2.5 rounded-xl bg-primary text-on-primary font-bold hover:opacity-90 active:scale-95 transition-all">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-on-surface/40 backdrop-blur-sm hidden" id="edit-modal">
+    <div class="bg-surface w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden">
+        <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+            <h2 class="font-h2 text-h2 text-on-surface">Sertifika Düzenle</h2>
+            <button class="p-2 hover:bg-surface-container-high rounded-full transition-colors"
+                    onclick="document.getElementById('edit-modal').classList.add('hidden')">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <form asp-action="EditCertificate" asp-controller="Certificate" asp-area="Admin" method="post">
+            <div class="p-8 space-y-4 overflow-y-auto max-h-[500px]">
+                <input type="hidden" name="Id" id="editId" />
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">Veren Kurum</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="Issuer" id="editIssuer" type="text" required />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">Kategori</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="Category" id="editCategory" type="text" required />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">İkon Sınıfı</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="IconClass" id="editIconClass" type="text" />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">İkon Arka Plan Rengi</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="IconBgColor" id="editIconBgColor" type="color" />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">Credential ID</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="CredentialId" id="editCredentialId" type="text" required/>
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">Credential URL</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="CredentialURL" id="editCredentialURL" type="url" required/>
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">Verilme Tarihi</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="IssueDate" id="editIssueDate" type="date" />
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md mb-2 text-on-surface-variant">
+                            Bitiş Tarihi
+                            <span class="text-secondary font-normal">(opsiyonel — boş bırakılırsa süresiz geçerli)</span>
+                        </label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none font-body-md"
+                               name="ExpiryDate" id="editExpiryDate" type="date" />
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 border-t border-outline-variant bg-surface-container-lowest flex gap-3 justify-end">
+                <button type="button" class="px-6 py-2.5 rounded-xl border border-outline-variant text-on-surface hover:bg-surface-container-high transition-all font-label-md"
+                        onclick="document.getElementById('edit-modal').classList.add('hidden')">
+                    İptal
+                </button>
+                <button type="submit" class="px-8 py-2.5 rounded-xl bg-primary text-on-primary font-bold hover:opacity-90 active:scale-95 transition-all">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openEditModal(id, issuer, category, iconClass, iconBgColor, credentialURL, credentialId, issueDate, expiryDate) {
+        document.getElementById('editId').value = id;
+        document.getElementById('editIssuer').value = issuer;
+        document.getElementById('editCategory').value = category;
+        document.getElementById('editIconClass').value = iconClass;
+        document.getElementById('editIconBgColor').value = iconBgColor || '#F97316';
+        document.getElementById('editCredentialURL').value = credentialURL;
+        document.getElementById('editCredentialId').value = credentialId;
+        document.getElementById('editIssueDate').value = issueDate;
+        document.getElementById('editExpiryDate').value = expiryDate;
+        document.getElementById('edit-modal').classList.remove('hidden');
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.getElementById('add-modal').classList.add('hidden');
+            document.getElementById('edit-modal').classList.add('hidden');
+        }
+    });
+</script>

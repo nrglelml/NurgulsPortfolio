@@ -10,11 +10,12 @@ namespace BusinessLayer.ValidationRules
 {
     public class CertificateValidator:AbstractValidator<Certificate>
     {
-        // DTO YA GÖRE DÜZENLENECEK
         public CertificateValidator()
         {
             RuleFor(x => x.Issuer).NotEmpty().WithMessage("Issuer kısmı boş bırakılamaz");
             RuleFor(x => x.Category).NotEmpty().WithMessage("Kategori kısmı boş bırakılamaz");
+            RuleFor(x => x.CredentialURL).NotEmpty().WithMessage("Sertifika URL kısmı boş bırakılamaz");
+            RuleFor(x => x.CredentialId).NotEmpty().WithMessage("Sertifika ID kısmı boş bırakılamaz");
         }
     }
 }
