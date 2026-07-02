@@ -4,39 +4,52 @@
 }
 <section id="work" class="py-24">
     <div class="max-w-6xl mx-auto px-6">
-       
+
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
             <div>
                 <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Portfolyo</p>
                 <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Seçilen çalışmalar</h2>
             </div>
-            <a href="/projeler" class="reveal d1 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors self-start sm:self-auto nl">Tüm projeler →</a>
+            <a href="/projeler" class="reveal d1 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors nl">Tüm projeler →</a>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-6">
-
-            <div class="grid grid-cols-1 @(Model.Count > 1 ? "md:grid-cols-2" : "") gap-6">
+        <div class="grid grid-cols-1 @(Model != null && Model.Count > 1 ? "md:grid-cols-2" : "max-w-2xl") gap-6">
+            @if (Model != null && Model.Any())
+            {
                 @foreach (var item in Model)
                 {
-                    <a href="/projects/@item.Id">
-                        <article class="card-h reveal d1 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-                            <div class="pf w-full h-64 md:h-80">
-                                <img src="@(string.IsNullOrEmpty(item?.CoverImageURL) ? "/placeholder.png" : item.CoverImageURL)" loading="lazy" />
+                    <a href="/projects/@item.Id" class="block">
+                        <article class="card-h reveal d1 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent h-full">
+                            <div class="pf w-full h-64 md:h-72 overflow-hidden">
+                                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                     src="@(string.IsNullOrEmpty(item?.CoverImageURL) ? "/placeholder.png" : item.CoverImageURL)"
+                                     loading="lazy" />
                             </div>
                             <div class="p-7">
                                 <div class="flex flex-wrap gap-2 mb-4">
-                                    <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">@item.Skill?.SkillTitle</span>
-                                    <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">@item.TechStack</span>
+                                    @if (!string.IsNullOrEmpty(item.Skill?.SkillTitle))
+                                    {
+                                        <span class="text-xs bg-accent/10 text-accent border border-accent/20 px-3 py-1 rounded-full">@item.Skill.SkillTitle</span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(item.TechStack))
+                                    {
+                                        <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">@item.TechStack</span>
+                                    }
                                 </div>
                                 <h3 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-2">@item.ProjectTitle</h3>
-                                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">@item.Description</p>
-                                <span class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">Detaya Git</span>
+                                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5 line-clamp-3">@item.Description</p>
+                                <span class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl group-hover:text-accent transition-colors">
+                                    Detaya Git
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                    </svg>
+                                </span>
                             </div>
                         </article>
                     </a>
                 }
-            </div>
-
-
+            }
         </div>
+
     </div>
 </section>

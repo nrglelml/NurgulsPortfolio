@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace NurgulsPortfolio.Controllers
 {
-    public class TestimonialController : Controller
+    public class TestimonialController : BaseUIController
     {
         private readonly ITestimonialService _testimonialService;
 

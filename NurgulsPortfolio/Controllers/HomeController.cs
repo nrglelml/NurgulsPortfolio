@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace NurgulsPortfolio.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseUIController
     {
         private readonly IContactMeService _contactMeService;
 

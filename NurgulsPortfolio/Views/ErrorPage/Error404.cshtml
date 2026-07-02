@@ -1,0 +1,221 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html class="h-full" lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>404 - Sayfa Bulunamadı - Nurgül Elmalı</title>
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-container": "#ffffff",
+                        "secondary-fixed": "#e3e0f5",
+                        "surface-container": "#e6eeff",
+                        "primary": "#1e3a5f",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#303336",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#d9e3f7",
+                        "surface-dim": "#d0daef",
+                        "secondary-fixed-dim": "#c7c4d9",
+                        "outline": "#8c7164",
+                        "secondary": "#5d5d6e",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#dee9fd",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#1e3a5f",
+                        "on-surface-variant": "#584237",
+                        "primary-fixed": "#d0e4ff",
+                        "primary-fixed-dim": "#9abfed",
+                        "inverse-surface": "#273140",
+                        "tertiary-fixed-dim": "#c4c7ca",
+                        "surface": "#f9f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#e0ddf2",
+                        "outline-variant": "#c5d3e8",
+                        "inverse-primary": "#9abfed",
+                        "on-secondary": "#ffffff",
+                        "background": "#f9f9ff",
+                        "tertiary": "#5c5f62",
+                        "on-surface": "#121c2a",
+                        "on-secondary-fixed-variant": "#464556",
+                        "inverse-on-surface": "#ebf1ff",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f9f9ff",
+                        "on-tertiary-fixed-variant": "#44474a",
+                        "on-tertiary-fixed": "#191c1f",
+                        "on-primary-fixed": "#001d36",
+                        "tertiary-fixed": "#e0e2e6",
+                        "tertiary-container": "#989b9f",
+                        "on-secondary-container": "#626173",
+                        "primary-container": "#1e3a5f",
+                        "on-secondary-fixed": "#1a1a29",
+                        "on-background": "#121c2a",
+                        "on-primary-fixed-variant": "#144272",
+                        "surface-variant": "#d9e3f7",
+                        "surface-container-low": "#eff3ff"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        stack_md: "16px",
+                        stack_lg: "24px",
+                        sidebar_width: "240px",
+                        container_padding: "32px",
+                        stack_sm: "8px",
+                        gutter: "24px"
+                    },
+                    fontFamily: {
+                        h3: ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        h2: ["Hanken Grotesk"],
+                        h1: ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        h3: ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        h2: ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        h1: ["30px", { lineHeight: "38px", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "label-md": ["12px", { lineHeight: "16px", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: #f9f9ff;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @@keyframes floating {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .glitch-effect {
+            animation: glitch 2s linear infinite;
+        }
+
+        @@keyframes glitch {
+            2%, 64% {
+                transform: translate(2px, 0) skew(0deg);
+            }
+
+            4%, 60% {
+                transform: translate(-2px, 0) skew(0deg);
+            }
+
+            62% {
+                transform: translate(0, 0) skew(5deg);
+            }
+        }
+
+        .pulse-navy {
+            animation: pulse-navy 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @@keyframes pulse-navy {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .7;
+            }
+        }
+    </style>
+</head>
+<body class="h-full flex items-center justify-center p-container_padding">
+
+    <div class="fixed inset-0 pointer-events-none z-0 opacity-30">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-container rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-surface-container-highest rounded-full blur-[120px]"></div>
+    </div>
+
+    <main class="relative z-10 max-w-2xl w-full text-center">
+        <div class="relative mb-stack_lg flex justify-center items-center">
+            <div class="absolute inset-0 flex items-center justify-center -z-10 opacity-5">
+                <span class="text-[320px] font-extrabold text-on-surface select-none">404</span>
+            </div>
+            <div class="relative w-64 h-64 md:w-80 md:h-80 mx-auto">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-48 h-48 bg-surface-container-lowest rounded-[40px] shadow-sm border border-outline-variant flex items-center justify-center floating">
+                        <span class="material-symbols-outlined text-[100px] text-primary-container" style="font-variation-settings: 'FILL' 1;">search_off</span>
+                    </div>
+                    <div class="absolute top-0 right-4 w-12 h-12 bg-primary-container rounded-lg flex items-center justify-center shadow-lg glitch-effect">
+                        <span class="material-symbols-outlined text-white">warning</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-md pulse-navy">
+                        <span class="material-symbols-outlined text-white text-[32px]">question_mark</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-stack_sm mb-stack_lg">
+            <h1 class="font-h1 text-h1 md:text-[42px] text-on-surface tracking-tight">Sayfa Bulunamadı</h1>
+            <p class="font-body-lg text-body-lg text-secondary max-w-md mx-auto leading-relaxed">
+                Aradığınız sayfa taşınmış, silinmiş veya hiç var olmamış olabilir. Lütfen adresi kontrol edin veya ana panele dönün.
+            </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-stack_md">
+            <a class="inline-flex items-center justify-center px-8 py-3.5 bg-primary-container text-white font-h3 text-h3 rounded-lg hover:brightness-110 active:scale-95 transition-all duration-150 shadow-md group"
+               href="/">
+                <span class="material-symbols-outlined mr-2 group-hover:-translate-x-0.5 transition-transform">dashboard</span>
+                Ana Sayfaya Git
+            </a>
+            <button class="inline-flex items-center justify-center px-8 py-3.5 border border-outline-variant text-secondary font-h3 text-h3 rounded-lg hover:bg-surface-container transition-colors"
+                    onclick="window.history.back()">
+                <span class="material-symbols-outlined mr-2">arrow_back</span>
+                Geri Dön
+            </button>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) / 60;
+            const moveY = (e.clientY - window.innerHeight / 2) / 60;
+            document.querySelector('main').style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+    </script>
+</body>
+</html>

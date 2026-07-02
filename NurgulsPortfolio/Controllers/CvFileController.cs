@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace NurgulsPortfolio.Controllers
 {
-    public class CvFileController : Controller
+    public class CvFileController :BaseUIController
     {
         private readonly ICvFileService _cvFileService;
         private readonly IMapper _mapper;
