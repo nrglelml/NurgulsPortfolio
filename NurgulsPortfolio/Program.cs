@@ -1,6 +1,7 @@
 using BusinessLayer.Container;
 using BusinessLayer.ValidationRules;
 using DataAccessLayer.Concrete;
+using DTOLayer;
 using EntityLayer.Concrete;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -18,7 +19,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<AdminLoginValidator>();
 builder.Services.AddDbContext<Context>();
 
 builder.Services.AddIdentity<AppUser, AppRole>()
-    .AddEntityFrameworkStores<Context>();
+    .AddEntityFrameworkStores<Context>()
+    .AddErrorDescriber<CustomIdentityDTO>();
 
 builder.Services.AddHttpClient();
 //businesslayer/container/extension.cs dosyasý için

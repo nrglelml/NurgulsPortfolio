@@ -38,40 +38,12 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı.");
             return View(dto);
         }
+        
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("SignIn", "Login", new { area = "Admin" });
         }
-        //[HttpPost]
-        //public async Task<IActionResult> UpdateCredentials(AdminCredentialsDto dto)
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-
-        //    if (!string.IsNullOrEmpty(dto.NewUsername))
-        //    {
-        //        user.UserName = dto.NewUsername;
-        //        await _userManager.UpdateAsync(user);
-        //    }
-
-        //    if (!string.IsNullOrEmpty(dto.NewPassword))
-        //    {
-        //        if (dto.NewPassword != dto.ConfirmPassword)
-        //        {
-        //            TempData["Error"] = "Şifreler eşleşmiyor.";
-        //            return RedirectToAction("Index");
-        //        }
-
-        //        var result = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
-        //        if (!result.Succeeded)
-        //        {
-        //            TempData["Error"] = result.Errors.First().Description;
-        //            return RedirectToAction("Index");
-        //        }
-        //    }
-        //    await _signInManager.RefreshSignInAsync(user);
-        //    TempData["Success"] = "Bilgiler güncellendi.";
-        //    return RedirectToAction("Index");
-        //}
+        
     }
 }

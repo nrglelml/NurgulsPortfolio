@@ -197,7 +197,8 @@
             </a>
         </nav>
         <div class="px-2 mt-auto pt-6 border-t border-on-secondary-fixed-variant/30 space-y-1">
-            <a class="flex items-center gap-3 py-3 text-on-tertiary-fixed-variant hover:text-on-primary px-4 hover:bg-on-secondary-fixed-variant transition-colors transition-transform active:scale-95 duration-150" href="#">
+
+            <a class="@NavClass("Settings")" asp-area="Admin" asp-controller="Settings" asp-action="UpdateCredentials">
                 <span class="material-symbols-outlined">settings</span>
                 <span class="font-body-md text-body-md">Ayarlar</span>
             </a>
