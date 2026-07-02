@@ -25,72 +25,7 @@
 @await Component.InvokeAsync("_Testimonials")
 
 <!-- ═══ EXPERIENCE ═══ -->
-<section id="experience" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
-    <div class="max-w-6xl mx-auto px-6">
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
-            <div>
-                <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Thoughts</p>
-                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">From the blog</h2>
-            </div>
-            <a href="blog.html" class="reveal d1 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors self-start sm:self-auto nl">All articles →</a>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-6">
-
-            <article class="reveal d1 card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-                <div class="pf w-full h-44">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=700&q=80" alt="Why I ditched CSS frameworks" loading="lazy">
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full">Design</span>
-                        <span class="text-xs text-zinc-400">Mar 8, 2025</span>
-                    </div>
-                    <a href="blog-article.html">
-                        <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Why I ditched heavy CSS frameworks for Tailwind</h3>
-                    </a>
-                    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">After years of fighting specificity wars, here's what finally convinced me to make the switch.</p>
-                    <a href="blog-article.html" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">Read more →</a>
-                </div>
-            </article>
-
-            <article class="reveal d2 card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-                <div class="pf w-full h-44">
-                    <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=700&q=80" alt="Design systems" loading="lazy">
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full">Dev</span>
-                        <span class="text-xs text-zinc-400">Feb 21, 2025</span>
-                    </div>
-                    <a href="blog-article.html">
-                        <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Building a design system from scratch in a weekend</h3>
-                    </a>
-                    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">Tokens, components, docs — the process I follow to spin up a coherent system in 48 hours.</p>
-                    <a href="blog-article.html" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">Read more →</a>
-                </div>
-            </article>
-
-            <article class="reveal d3 card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-                <div class="pf w-full h-44">
-                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=700&q=80" alt="Freelance lessons" loading="lazy">
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full">Freelance</span>
-                        <span class="text-xs text-zinc-400">Jan 14, 2025</span>
-                    </div>
-                    <a href="blog-article.html">
-                        <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">5 lessons from my first year of full-time freelancing</h3>
-                    </a>
-                    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">Contracts, pricing, scope creep — the things nobody tells you before you go solo.</p>
-                    <a href="blog-article.html" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">Read more →</a>
-                </div>
-            </article>
-
-        </div>
-    </div>
-</section>
+@await Component.InvokeAsync("_Experience")
 
 <!-- ═══ CONTACT ═══ -->
 <section id="contact" class="py-24">
