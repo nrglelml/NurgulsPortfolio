@@ -1,0 +1,32 @@
+﻿@model List<Interest>
+@{
+    Layout = null;
+}
+<section id="interests" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
+    <div class="max-w-6xl mx-auto px-6">
+        <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">İlgi Alanları</p>
+        <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white mb-14">Hobiler &amp; İlgi Alanları</h2>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                @foreach (var item in Model)
+                {
+                    <div class="reveal card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+                        <div class="pf w-full h-40">
+                            <img src="@(string.IsNullOrEmpty(item.ImageURL) ? "/placeholder.png" : item.ImageURL)"
+                                 alt="@item.Title" loading="lazy" />
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">@item.Title</h3>
+                            @if (!string.IsNullOrEmpty(item.Description))
+                            {
+                                <p class="text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2">@item.Description</p>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
