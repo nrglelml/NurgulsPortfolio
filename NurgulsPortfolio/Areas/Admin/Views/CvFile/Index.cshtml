@@ -1,0 +1,202 @@
+﻿@model List<CvFileAddEditDTO>
+@{
+    ViewData["Title"] = "CV Dosyaları Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main class="ml-[240px] pt-16 h-screen overflow-y-auto">
+    <div class="p-container_padding max-w-7xl mx-auto">
+        <div class="flex justify-between items-end mb-8">
+            <h2 class="font-h1 text-h1 text-on-surface">CV Dosyaları</h2>
+            <button class="flex items-center space-x-2 bg-primary-container text-on-primary px-6 py-2.5 rounded-lg font-bold hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-primary-container/20"
+                    onclick="openModal()">
+                <span class="material-symbols-outlined">add</span>
+                <span>CV Yükle</span>
+            </button>
+        </div>
+
+        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-surface-container-low border-b border-outline-variant">
+                            <th class="px-6 py-4 text-label-md text-secondary uppercase tracking-wider">Başlık</th>
+                            <th class="px-6 py-4 text-label-md text-secondary uppercase tracking-wider">Yüklenme Tarihi</th>
+                            <th class="px-6 py-4 text-label-md text-secondary uppercase tracking-wider">Dosya Boyutu</th>
+                            <th class="px-6 py-4 text-label-md text-secondary uppercase tracking-wider">Durum</th>
+                            <th class="px-6 py-4 text-label-md text-secondary uppercase tracking-wider">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant">
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr class="hover:bg-surface-container transition-colors group">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <span class="material-symbols-outlined text-primary text-3xl">picture_as_pdf</span>
+                                            <div>
+                                                <p class="font-body-lg font-semibold text-on-surface">@item.Title</p>
+                                                <p class="text-label-md text-secondary">@item.FileName</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-body-md text-on-surface-variant">
+                                        @item.UploadedAt.ToString("dd MMM yyyy")
+                                    </td>
+                                    <td class="px-6 py-4 font-body-md text-on-surface-variant">
+                                        @((item.FileSizeBytes / 1024.0).ToString("F1")) KB
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        @if (item.IsLatest)
+                                        {
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-lg text-label-md font-bold bg-primary-container/10 text-primary-container">
+                                                GÖRÜNÜR
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-lg text-label-md font-bold bg-tertiary/10 text-tertiary">
+                                                GİZLİ
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="px-6 py-4">
+
+                                        <div class="flex items-center space-x-2">
+                                            <form asp-action="ToggleVisibility" asp-controller="CvFile" asp-area="Admin" method="post" class="inline">
+                                                <input type="hidden" name="id" value="@item.Id" />
+                                                <button type="submit"
+                                                        class="p-2 transition-all hover:bg-surface-container-high rounded-lg @(item.IsLatest ? "text-primary" : "text-secondary hover:text-primary")"
+                                                        title="@(item.IsLatest ? "Gizle" : "Göster")">
+                                                    <span class="material-symbols-outlined">@(item.IsLatest ? "visibility" : "visibility_off")</span>
+                                                </button>
+                                            </form>
+                                            <a asp-action="Download" asp-controller="CvFile" asp-area="Admin"
+                                               asp-route-id="@item.Id"
+                                               class="p-2 text-secondary hover:text-primary transition-all hover:bg-surface-container-high rounded-lg"
+                                               title="İndir">
+                                                <span class="material-symbols-outlined">download</span>
+                                            </a>
+                                            <form asp-action="Delete" asp-controller="CvFile" asp-area="Admin" method="post" class="inline"
+                                                  onsubmit="return confirm('Bu CV dosyasını silmek istediğinize emin misiniz?')">
+                                                <input type="hidden" name="id" value="@item.Id" />
+                                                <button type="submit"
+                                                        class="p-2 text-secondary hover:text-error transition-all hover:bg-error-container/20 rounded-lg"
+                                                        title="Sil">
+                                                    <span class="material-symbols-outlined">delete</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="px-6 py-16 text-center text-secondary font-body-md">
+                                    Henüz CV dosyası yüklenmedi.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-6 py-4 bg-surface-container-low border-t border-outline-variant">
+                <p class="text-label-md text-secondary">Toplam @(Model?.Count ?? 0) dosya listeleniyor</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Upload Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-background/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" id="uploadModal">
+    <div class="bg-surface-container-lowest w-full max-w-lg rounded-2xl shadow-2xl border border-outline-variant overflow-hidden transform scale-95 transition-transform duration-300">
+        <div class="px-8 py-6 border-b border-outline-variant flex justify-between items-center bg-surface">
+            <h3 class="font-h2 text-h2 text-on-surface">Yeni CV Yükle</h3>
+            <button class="material-symbols-outlined text-secondary hover:text-error transition-colors p-2" onclick="closeModal()">close</button>
+        </div>
+        <form asp-action="Upload" asp-controller="CvFile" asp-area="Admin" method="post" enctype="multipart/form-data">
+            <div class="px-8 py-8 space-y-6">
+                <div>
+                    <label class="block font-label-md text-label-md text-on-surface-variant mb-2">Başlık</label>
+                    <input class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary-container focus:border-primary-container text-body-md outline-none transition-all"
+                           name="Title" placeholder="Örn: Web Geliştirici CV" type="text" required />
+                </div>
+                <div>
+                    <label class="block font-label-md text-label-md text-on-surface-variant mb-2">Sıra</label>
+                    <input class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary-container text-body-md outline-none transition-all"
+                           name="DisplayOrder" type="number" value="1" min="1" />
+                </div>
+                <div>
+                    <label class="block font-label-md text-label-md text-on-surface-variant mb-2">PDF Dosyası Seç</label>
+                    <div class="relative group cursor-pointer border-2 border-dashed border-outline-variant rounded-xl p-8 hover:border-primary-container transition-colors text-center">
+                        <input accept=".pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                               name="File" type="file" required id="cvFileInput" onchange="showFileName(this)" />
+                        <span class="material-symbols-outlined text-primary text-4xl mb-2">cloud_upload</span>
+                        <p class="text-body-md text-on-surface-variant group-hover:text-primary" id="uploadText">
+                            Tıklayın veya dosyayı buraya sürükleyin
+                        </p>
+                        <p class="text-label-md text-secondary mt-1">Maksimum dosya boyutu: 10MB — Sadece PDF</p>
+                        <!-- Seçilen dosya adı -->
+                        <div id="filePreview" class="hidden mt-3 flex items-center justify-center gap-2 text-primary font-semibold">
+                            <span class="material-symbols-outlined">picture_as_pdf</span>
+                            <span id="fileName"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-surface-container rounded-xl">
+                    <div class="flex flex-col">
+                        <span class="font-label-md text-on-surface">Ana sayfada göster</span>
+                        <span class="text-label-md text-secondary">Birden fazla CV görünür olabilir.</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input name="IsLatest" class="sr-only peer" type="checkbox" value="true" />
+                        <div class="w-11 h-6 bg-secondary-container rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                    </label>
+                </div>
+            </div>
+            <div class="px-8 py-6 bg-surface-container-low flex justify-end space-x-4 border-t border-outline-variant">
+                <button type="button" class="px-6 py-2.5 rounded-lg font-bold border border-outline text-on-surface-variant hover:bg-surface-container-highest transition-all"
+                        onclick="closeModal()">
+                    İptal
+                </button>
+                <button type="submit" class="px-8 py-2.5 rounded-lg font-bold bg-primary-container text-on-primary hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-primary-container/20">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+        function showFileName(input) {
+        if (input.files && input.files[0]) {
+            document.getElementById('uploadText').classList.add('hidden');
+            document.getElementById('filePreview').classList.remove('hidden');
+            document.getElementById('fileName').textContent = input.files[0].name;
+        }
+    }
+    function openModal() {
+        const modal = document.getElementById('uploadModal');
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.children[0].classList.remove('scale-95');
+        modal.children[0].classList.add('scale-100');
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('uploadModal');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modal.children[0].classList.add('scale-95');
+        modal.children[0].classList.remove('scale-100');
+    }
+
+    window.addEventListener('click', (e) => {
+        const modal = document.getElementById('uploadModal');
+        if (e.target === modal) closeModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+</script>
