@@ -1,0 +1,120 @@
+﻿@model List<Project>
+@{
+    ViewData["Title"] = "Projelerim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div x-data="projectFilter()">
+
+    <!-- Hero -->
+    <section class="pt-36 pb-12 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-80 h-80 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Portfolyo</p>
+            <h1 class="reveal font-display font-bold text-5xl md:text-6xl text-zinc-900 dark:text-white leading-tight mb-4">Projelerim</h1>
+            <p class="reveal text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed mb-8">
+                Geliştirdiğim projelerin tamamına buradan ulaşabilirsiniz.
+            </p>
+
+            <!-- Filter butonları -->
+            <div class="reveal flex flex-wrap gap-2">
+                <button x-on:click="filter = 'all'"
+                        :class="filter === 'all' ? 'bg-accent text-white border-accent' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'"
+                        class="text-sm px-4 py-1.5 rounded-full border transition-colors">
+                    Tümü (@Model.Count)
+                </button>
+                @foreach (var skill in Model.Where(x => x.Skill != null).Select(x => x.Skill.SkillTitle).Distinct())
+                {
+                    <button x-on:click="filter = '@skill'"
+                            :class="filter === '@skill' ? 'bg-accent text-white border-accent' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'"
+                            class="text-sm px-4 py-1.5 rounded-full border transition-colors">
+                        @skill (@Model.Count(x => x.Skill?.SkillTitle == skill))
+                    </button>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Grid -->
+    <section class="pb-24">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach (var item in Model)
+                {
+                    <div x-show="filter === 'all' || filter === '@(item.Skill?.SkillTitle)'"
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95">
+                        <article class="group h-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors card-h">
+                            <a href="/projects/@item.Id" class="block overflow-hidden h-52">
+                                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                     src="@(string.IsNullOrEmpty(item.CoverImageURL) ? "/placeholder.png" : item.CoverImageURL)"
+                                     loading="lazy" />
+                            </a>
+                            <div class="p-6">
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    @if (item.Skill != null)
+                                    {
+                                        <span class="text-xs px-2.5 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">
+                                            @item.Skill.SkillTitle
+                                        </span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(item.TechStack))
+                                    {
+                                        <span class="text-xs px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                                            @item.TechStack
+                                        </span>
+                                    }
+                                </div>
+                                <a href="/projeler/@item.Id">
+                                    <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">
+                                        @item.ProjectTitle
+                                    </h3>
+                                </a>
+                                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4 line-clamp-2">@item.Description</p>
+                                <a href="/projeler@item.Id" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl hover:text-accent transition-colors">
+                                    Detaya Git →
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                }
+            </div>
+
+            <!-- Boş durum -->
+            <div x-show="document.querySelectorAll('[x-show]:not([style*=\'none\'])').length === 0" class="text-center py-20">
+                <p class="text-zinc-400 text-sm">Bu kategoride proje bulunmuyor.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="pb-24">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="bg-zinc-900 dark:bg-zinc-800 rounded-3xl p-10 md:p-14 text-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 w-40 h-40 bg-accent/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <p class="text-xs font-medium text-accent tracking-widest uppercase mb-4">İletişim</p>
+                    <h2 class="font-display font-bold text-3xl md:text-4xl text-white mb-4">Birlikte çalışalım mı?</h2>
+                    <p class="text-zinc-400 max-w-md mx-auto mb-8">Yeni projeler için müsaitim. Projenizden bahsedin, birlikte çalışıp çalışamayacağımıza bakalım.</p>
+                    <a href="/#contact" class="shimmer inline-flex items-center gap-2 bg-accent text-white font-medium px-8 py-3.5 rounded-full hover:bg-accent-light transition-colors">
+                        Bana Ulaşın →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    function projectFilter() {
+        return {
+            filter: 'all'
+        }
+    }
+</script>

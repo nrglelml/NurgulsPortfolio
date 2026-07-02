@@ -12,7 +12,7 @@ namespace NurgulsPortfolio.ViewComponents.Home
         }
         public IViewComponentResult Invoke()
         {
-            var values = _projectService.TGetListWithSkill().Where(x=>x.IsActive==true).ToList();
+            var values = _projectService.TGetListWithSkill().Where(x=>x.IsActive==true).Take(4).ToList();
             return View(values);
         }
     }
