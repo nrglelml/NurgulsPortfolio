@@ -29,32 +29,30 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             if (!string.IsNullOrEmpty(dto.NewUsername) && dto.NewUsername != user.UserName)
             {
                 user.UserName = dto.NewUsername;
-                var usernameResult = await _userManager.UpdateAsync(user);
-                if (!usernameResult.Succeeded)
-                {
-                    TempData["Error"] = usernameResult.Errors.First().Description;
-                    return RedirectToAction("UpdateCredentials");
-                }
+                await _userManager.UpdateAsync(user);
             }
 
             if (!string.IsNullOrEmpty(dto.NewPassword))
             {
                 if (dto.NewPassword != dto.ConfirmPassword)
                 {
-                    TempData["Error"] = "Yeni şifreler eşleşmiyor.";
+                    TempData["Error"] = "Şifreler eşleşmiyor.";
                     return RedirectToAction("UpdateCredentials");
                 }
 
-                var passwordResult = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
-                if (!passwordResult.Succeeded)
+                var result = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
+                if (!result.Succeeded)
                 {
-                    TempData["Error"] = passwordResult.Errors.First().Description;
+                    TempData["Error"] = result.Errors.First().Description;
                     return RedirectToAction("UpdateCredentials");
                 }
+                await _signInManager.SignOutAsync();
+                TempData["Success"] = "Şifre güncellendi. Lütfen yeni şifrenizle giriş yapın.";
+                return RedirectToAction("SignIn", "Login", new { area = "Admin" });
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            TempData["Success"] = "Bilgiler başarıyla güncellendi.";
+            TempData["Success"] = "Bilgiler güncellendi.";
             return RedirectToAction("UpdateCredentials");
         }
     }

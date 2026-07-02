@@ -55,7 +55,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
                 _cvFileService.TAdd(cvFile);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "CvFile", new { area = "Admin" });
         }
 
         [HttpPost]
@@ -64,7 +64,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _cvFileService.TGetByID(id);
             value.IsLatest = !value.IsLatest;
             _cvFileService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "CvFile", new { area = "Admin" });
         }
 
         [HttpPost]
@@ -80,7 +80,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
 
                 _cvFileService.TDelete(value);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "CvFile", new { area = "Admin" });
         }
 
         public IActionResult Download(int id)

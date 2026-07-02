@@ -36,7 +36,10 @@ builder.Services.AddMvc(config =>
     config.Filters.Add(new AuthorizeFilter(policy));
 });
 builder.Services.AddSession();
-
+builder.Services.Configure<SecurityStampValidatorOptions>(options =>
+{
+    options.ValidationInterval = TimeSpan.Zero; 
+});
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Admin/Login/SignIn";
@@ -83,19 +86,18 @@ public static class SeedExtensions
         if (!roleManager.RoleExistsAsync("Admin").Result)
             roleManager.CreateAsync(new AppRole { Name = "Admin" }).Wait();
 
-        if (userManager.FindByNameAsync("admin").Result == null)
+        if (userManager.Users.Any())
+            return;
+
+        var user = new AppUser
         {
-            var user = new AppUser
-            {
-                UserName = "admin",
-                Email = "admin@portfolio.com",
-                EmailConfirmed = true
-            };
+            UserName = "admin",
+            Email = "admin@portfolio.com",
+            EmailConfirmed = true
+        };
 
-            var result = userManager.CreateAsync(user, "Admin123!").Result;
-
-            if (result.Succeeded)
-                userManager.AddToRoleAsync(user, "Admin").Wait();
-        }
+        var result = userManager.CreateAsync(user, "Admin123!").Result;
+        if (result.Succeeded)
+            userManager.AddToRoleAsync(user, "Admin").Wait();
     }
 }
