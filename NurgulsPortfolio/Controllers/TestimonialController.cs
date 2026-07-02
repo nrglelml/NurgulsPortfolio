@@ -14,6 +14,7 @@ namespace NurgulsPortfolio.Controllers
         {
             _testimonialService = testimonialService;
         }
+        [Route("/referansOlustur")]
         public IActionResult Index()
         {
             return View();
@@ -27,6 +28,7 @@ namespace NurgulsPortfolio.Controllers
             if (result.IsValid)
             {
                 _testimonialService.TAdd(p);
+                TempData["Success"] = "Yorumunuz başarıyla gönderildi.";
                 return RedirectToAction("Index");
             }
             else
@@ -35,6 +37,7 @@ namespace NurgulsPortfolio.Controllers
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }
+                TempData["ValidationErrors"] = string.Join("|", result.Errors.Select(x => x.ErrorMessage));
                 return RedirectToAction("Index");
             }
         }
