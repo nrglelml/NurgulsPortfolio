@@ -11,9 +11,15 @@ namespace DataAccessLayer.Concrete
 {
     public class Context : IdentityDbContext<AppUser,AppRole,int>
     {
+        public Context() { }
+        public Context(DbContextOptions<Context> options) : base(options) { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=localhost\\SQLEXPRESS;database=NurgulsPortfolioDB;Trusted_Connection=True;TrustServerCertificate=True;");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=sql5106.site4now.net;Database=db_acb8a3_nrglelml;User Id=db_acb8a3_nrglelml_admin;Password=Portfolio_mssql1;TrustServerCertificate=True;");
+            }
         }
         public DbSet<AboutMe> AboutMes { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
