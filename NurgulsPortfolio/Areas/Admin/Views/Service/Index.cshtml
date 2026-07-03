@@ -67,7 +67,11 @@
 
                                     <button class="p-2 text-secondary hover:text-primary transition-colors hover:bg-primary/10 rounded-lg"
                                             title="Düzenle"
-                                            onclick="openEditModal(@item.Id, '@item.Title', '@item.Description', '@item.ImageURL')">
+                                            data-id="@item.Id"
+                                            data-title="@item.Title"
+                                            data-desc="@item.Description"
+                                            data-image="@item.ImageURL"
+                                            onclick="openEditModal(this)">
                                         <span class="material-symbols-outlined">edit</span>
                                     </button>
                                 </div>
@@ -192,12 +196,12 @@
 </div>
 
 <script>
-    function openEditModal(id, title, description, imageUrl) {
-        document.getElementById('editServiceId').value = id;
-        document.getElementById('editServiceTitle').value = title;
-        document.getElementById('editServiceDescription').value = description;
-        document.getElementById('editServiceImageURL').value = imageUrl;
-        document.getElementById('editServiceImagePreview').src = imageUrl || '/placeholder.png';
+      function openEditModal(btn) {
+        document.getElementById('editServiceId').value = btn.dataset.id;
+        document.getElementById('editServiceTitle').value = btn.dataset.title;
+        document.getElementById('editServiceDescription').value = btn.dataset.desc;
+        document.getElementById('editServiceImageURL').value = btn.dataset.image;
+        document.getElementById('editServiceImagePreview').src = btn.dataset.image || '/placeholder.png';
         document.getElementById('edit-service-modal').classList.remove('hidden');
     }
 

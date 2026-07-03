@@ -76,7 +76,14 @@
                                     }
                                     <button class="p-2 text-secondary hover:text-primary transition-colors hover:bg-primary/10 rounded-lg"
                                             title="Düzenle"
-                                            onclick="openEditModal(@item.Id, '@item.ProjectTitle', '@item.Description', '@item.TechStack', @item.SkillId, '@item.ProjectUrl', '@item.CoverImageURL')">
+                                            data-id="@item.Id"
+                                            data-title="@item.ProjectTitle"
+                                            data-desc="@item.Description"
+                                            data-techstack="@item.TechStack"
+                                            data-skillid="@item.SkillId"
+                                            data-url="@item.ProjectUrl"
+                                            data-image="@item.CoverImageURL"
+                                            onclick="openEditModal(this)">
                                         <span class="material-symbols-outlined">edit</span>
                                     </button>
                                 </div>
@@ -232,15 +239,15 @@
 </div>
 
 <script>
-    function openEditModal(id, title, desc, techStack, skillId, url, coverImage) {
-        document.getElementById('editProjectId').value = id;
-        document.getElementById('editProjectTitle').value = title;
-        document.getElementById('editProjectDescription').value = desc;
-        document.getElementById('editProjectTechStack').value = techStack;
-        document.getElementById('editProjectSkillId').value = skillId;
-        document.getElementById('editProjectURL').value = url;
-        document.getElementById('editProjectImageURL').value = coverImage;
-        document.getElementById('editProjectImagePreview').src = coverImage || '/placeholder.png';
+      function openEditModal(btn) {
+        document.getElementById('editProjectId').value = btn.dataset.id;
+        document.getElementById('editProjectTitle').value = btn.dataset.title;
+        document.getElementById('editProjectDescription').value = btn.dataset.desc;
+        document.getElementById('editProjectTechStack').value = btn.dataset.techstack;
+        document.getElementById('editProjectSkillId').value = btn.dataset.skillid;
+        document.getElementById('editProjectURL').value = btn.dataset.url;
+        document.getElementById('editProjectImageURL').value = btn.dataset.image;
+        document.getElementById('editProjectImagePreview').src = btn.dataset.image || '/placeholder.png';
         document.getElementById('edit-project-modal').classList.remove('hidden');
     }
 
