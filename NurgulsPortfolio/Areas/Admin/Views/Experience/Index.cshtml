@@ -224,7 +224,7 @@
             <div>
                 <h3 class="font-h2 text-h2 text-on-surface">Deneyimi Düzenle</h3>
             </div>
-            <button class="p-2 text-secondary hover:text-on-surface rounded-lg hover:bg-surface-container-high transition-all" onclick="toggleDrawer()">
+            <button class="p-2 text-secondary hover:text-on-surface rounded-lg hover:bg-surface-container-high transition-all" onclick="toggleDrawer('edit-side-drawer')">
                 <span class="material-symbols-outlined" data-icon="close">close</span>
             </button>
         </div>
@@ -264,11 +264,11 @@
 <textarea class="w-full px-4 py-3 rounded-lg border-outline-variant focus:border-primary-container focus:ring-1 focus:ring-primary-container/20 text-body-md resize-none" name="Description" id="editExperienceDescription" rows="5"></textarea>
                 </div>
             </div>
-       
 
-        <!-- Drawer Footer -->
+
+            <!-- Drawer Footer -->
             <div class="p-8 border-t border-outline-variant bg-surface-container-low flex space-x-4">
-                <button class="flex-1 px-6 py-3 border border-outline text-secondary font-bold rounded-xl hover:bg-surface-container-highest transition-all" onclick="toggleDrawer()" type="button">İptal</button>
+                <button class="flex-1 px-6 py-3 border border-outline text-secondary font-bold rounded-xl hover:bg-surface-container-highest transition-all" onclick="toggleDrawer('edit-side-drawer')" type="button">İptal</button>
                 <button class="flex-1 px-6 py-3 bg-primary-container text-on-primary-container font-bold rounded-xl shadow-lg shadow-primary-container/20 hover:opacity-90 active:scale-95 transition-all" type="submit">Kaydet</button>
             </div>
         </form>

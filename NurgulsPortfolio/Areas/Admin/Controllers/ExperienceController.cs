@@ -68,7 +68,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _experienceService.TGetByID(id);
             value.IsActive = true;
             _experienceService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Experience", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult MakePassive(int id)
@@ -76,7 +76,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _experienceService.TGetByID(id);
             value.IsActive = false;
             _experienceService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Experience", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult EditExperience(Experience p)
@@ -90,7 +90,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             {
                 foreach (var item in result.Errors)
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Experience", new { area = "Admin" });
             }
 
             experience.Company = p.Company;
@@ -101,7 +101,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             experience.Description = p.Description; 
 
             _experienceService.TUpdate(experience);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Experience", new { area = "Admin" });
         }
     }
 }

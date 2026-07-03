@@ -25,7 +25,8 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
         {
             var value = _contactMeService.TGetByID(id);
             _contactMeService.TDelete(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Messages", new { area = "Admin" });
+       
         }
     }
 }

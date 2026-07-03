@@ -14,7 +14,7 @@
             </div>
             <button class="flex items-center space-x-2 bg-primary-container text-on-primary-container px-6 py-3 rounded-xl font-bold hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-primary-container/20" onclick="toggleDrawer()">
                 <span class="material-symbols-outlined" data-icon="add">add</span>
-                <span>Yeni Deneyim Ekle</span>
+                <span>Yeni Eğitim Ekle</span>
             </button>
         </div>
         <!-- Bento Layout Content / Table -->
@@ -228,7 +228,7 @@
             <div>
                 <h3 class="font-h2 text-h2 text-on-surface">Eğitim Bilgilerini Düzenle</h3>
             </div>
-            <button class="p-2 text-secondary hover:text-on-surface rounded-lg hover:bg-surface-container-high transition-all" onclick="toggleDrawer()">
+            <button class="p-2 text-secondary hover:text-on-surface rounded-lg hover:bg-surface-container-high transition-all" onclick="toggleDrawer('edit-side-drawer')">
                 <span class="material-symbols-outlined" data-icon="close">close</span>
             </button>
         </div>
@@ -271,7 +271,7 @@
 
             <!-- Drawer Footer -->
             <div class="p-8 border-t border-outline-variant bg-surface-container-low flex space-x-4">
-                <button class="flex-1 px-6 py-3 border border-outline text-secondary font-bold rounded-xl hover:bg-surface-container-highest transition-all" onclick="toggleDrawer()" type="button">İptal</button>
+                <button class="flex-1 px-6 py-3 border border-outline text-secondary font-bold rounded-xl hover:bg-surface-container-highest transition-all" onclick="toggleDrawer('edit-side-drawer')" type="button">İptal</button>
                 <button class="flex-1 px-6 py-3 bg-primary-container text-on-primary-container font-bold rounded-xl shadow-lg shadow-primary-container/20 hover:opacity-90 active:scale-95 transition-all" type="submit">Kaydet</button>
             </div>
         </form>

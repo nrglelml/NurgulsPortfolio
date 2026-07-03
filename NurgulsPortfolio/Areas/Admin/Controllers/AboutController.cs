@@ -62,7 +62,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             else
                 _contactService.TUpdate(dto.Contact);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "About", new { area = "Admin" });
         }
 
 

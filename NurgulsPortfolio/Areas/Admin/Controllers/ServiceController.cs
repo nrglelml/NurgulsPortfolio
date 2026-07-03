@@ -66,7 +66,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _myService.TGetByID(id);
             value.IsActive = true;
             _myService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Service", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult MakePassive(int id)
@@ -74,7 +74,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _myService.TGetByID(id);
             value.IsActive = false;
             _myService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Service", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult EditService(ServiceAddEditDTO p)

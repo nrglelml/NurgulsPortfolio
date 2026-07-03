@@ -57,7 +57,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _interestService.TGetByID(id);
             value.IsActive = true;
             _interestService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Interest", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult MakePassive(int id)
@@ -65,7 +65,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _interestService.TGetByID(id);
             value.IsActive = false;
             _interestService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Interest", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult EditInterest(InterestAddEditDTO p)
@@ -110,7 +110,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
                     System.IO.File.Delete(oldPath);
             }
             _interestService.TDelete(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Interest", new { area = "Admin" });
         }
 
 

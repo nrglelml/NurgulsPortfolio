@@ -29,7 +29,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             if (result.IsValid)
             {
                 _socialMediaService.TAdd(p);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "SocialMedia", new { area = "Admin" });
             }
             else
             {
@@ -37,7 +37,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "SocialMedia", new { area = "Admin" });
             }
         }
         [HttpPost]
@@ -52,7 +52,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
                 socialMedia.MediaName = p.MediaName;
                 socialMedia.MediaURL = p.MediaURL;
                 _socialMediaService.TUpdate(socialMedia);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "SocialMedia", new { area = "Admin" });
             }
             else
             {
@@ -60,7 +60,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "SocialMedia", new { area = "Admin" });
             }
         }
         [HttpPost]
@@ -68,7 +68,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
         {
             var values = _socialMediaService.TGetByID(id);
             _socialMediaService.TDelete(values);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "SocialMedia", new { area = "Admin" });
         }
     }
 }

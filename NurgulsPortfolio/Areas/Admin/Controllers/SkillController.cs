@@ -50,7 +50,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             if (result.IsValid)
             {
                 _skillService.TAdd(p);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Skill", new { area = "Admin" });
             }
             else
             {
@@ -58,7 +58,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Skill", new { area = "Admin" });
             }
             
         }
@@ -68,7 +68,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
            var value= _skillService.TGetByID(id);
             value.IsActive = true;
             _skillService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Skill", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult MakePassive(int id)
@@ -76,7 +76,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _skillService.TGetByID(id);
             value.IsActive = false;
             _skillService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Skill", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult EditSkill(Skill p)
@@ -89,7 +89,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             {
                 skill.SkillTitle = p.SkillTitle;
                 _skillService.TUpdate(skill);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Skill", new { area = "Admin" });
             }
             else
             {
@@ -97,7 +97,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Skill", new { area = "Admin" });
             }
         }
     }

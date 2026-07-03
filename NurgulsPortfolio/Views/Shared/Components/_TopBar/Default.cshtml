@@ -10,5 +10,5 @@
         <p class="font-label-md text-label-md text-secondary opacity-70">Admin</p>
     </div>
     <img class="w-10 h-10 rounded-full border-2 border-primary-container/20 object-cover"
-         src="@(Model == null || string.IsNullOrEmpty(Model.ImageURL) ? "/woman.png" : "/aboutMeImages/" + Model.ImageURL)" />
+         src="@(string.IsNullOrEmpty(Model.ImageURL) ? "/woman.png" : Model.ImageURL)"
 </div>

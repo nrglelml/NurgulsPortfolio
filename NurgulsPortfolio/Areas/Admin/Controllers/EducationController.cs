@@ -68,7 +68,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _educationService.TGetByID(id);
             value.IsActive = true;
             _educationService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Education", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult MakePassive(int id)
@@ -76,7 +76,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _educationService.TGetByID(id);
             value.IsActive = false;
             _educationService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Education", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult EditEducation(Education p)
@@ -90,7 +90,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             {
                 foreach (var item in result.Errors)
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Education", new { area = "Admin" });
             }
 
             education.School = p.School;
@@ -100,8 +100,8 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             education.StartDate = p.StartDate;
             education.EndDate = p.EndDate;
             _educationService.TUpdate(education);
-            
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Index", "Education", new { area = "Admin" });
         }
     }
 }

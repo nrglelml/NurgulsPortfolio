@@ -25,7 +25,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
         {
             var values = _testimonialService.TGetByID(id);
             _testimonialService.TDelete(values);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Testimonial", new { area = "Admin" });
         }
     }
 }

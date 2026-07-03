@@ -30,11 +30,11 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             if (result.IsValid)
             {
                 _certificateService.TAdd(p);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Certificate", new { area = "Admin" });
             }
             foreach (var item in result.Errors)
                 ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Certificate", new { area = "Admin" });
         }
 
         [HttpPost]
@@ -54,11 +54,11 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
                 cert.IssueDate = p.IssueDate;
                 cert.ExpiryDate = p.ExpiryDate;
                 _certificateService.TUpdate(cert);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Certificate", new { area = "Admin" });
             }
             foreach (var item in result.Errors)
                 ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Certificate", new { area = "Admin" });
         }
 
         [HttpPost]
@@ -67,7 +67,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var cert = _certificateService.TGetByID(id);
             cert.IsActive = true;
             _certificateService.TUpdate(cert);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Certificate", new { area = "Admin" });
         }
 
         [HttpPost]
@@ -76,7 +76,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var cert = _certificateService.TGetByID(id);
             cert.IsActive = false;
             _certificateService.TUpdate(cert);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Certificate", new { area = "Admin" });
         }
 
         [HttpPost]
@@ -84,7 +84,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
         {
             var cert = _certificateService.TGetByID(id);
             _certificateService.TDelete(cert);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Certificate", new { area = "Admin" });
         }
     }
 }

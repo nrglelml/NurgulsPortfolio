@@ -79,7 +79,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _projectService.TGetByID(id);
             value.IsActive = true;
             _projectService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Project", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult MakePassive(int id)
@@ -87,7 +87,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var value = _projectService.TGetByID(id);
             value.IsActive = false;
             _projectService.TUpdate(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Project", new { area = "Admin" });
         }
         [HttpPost]
         public IActionResult EditProject(ProjectAddEditDTO p)
@@ -132,7 +132,7 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
                     System.IO.File.Delete(oldPath);
             }
             _projectService.TDelete(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Project", new { area = "Admin" });
         }
 
 
