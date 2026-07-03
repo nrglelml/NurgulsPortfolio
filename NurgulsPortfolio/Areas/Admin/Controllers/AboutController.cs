@@ -71,14 +71,19 @@ namespace NurgulsPortfolio.Areas.Admin.Controllers
             var resource = Directory.GetCurrentDirectory();
             var extension = Path.GetExtension(imageFile.FileName);
             var imagename = Guid.NewGuid() + extension;
-            var savelocation = Path.Combine(resource, "wwwroot", "aboutMeImages", imagename);
+            var folder = Path.Combine(resource, "wwwroot", "aboutMeImages");
+
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            var savelocation = Path.Combine(folder, imagename);
 
             using (var stream = new FileStream(savelocation, FileMode.Create))
             {
                 imageFile.CopyTo(stream);
             }
 
-            return imagename;
+            return "/aboutMeImages/" + imagename;
         }
     }
 }
