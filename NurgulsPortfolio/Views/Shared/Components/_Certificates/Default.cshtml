@@ -5,7 +5,7 @@
 <section id="certificates" class="py-24">
     <div class="max-w-6xl mx-auto px-6">
         <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Sertifikalar</p>
-        <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white mb-14">Eğitim &amp; Sertifikalar</h2>
+        <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white mb-14">Kurs Sertifikaları</h2>
 
         @if (Model != null && Model.Any())
         {
@@ -16,9 +16,7 @@
                         <div class="flex items-start gap-4 mb-4">
                             <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                                  style="background-color: @(item.IconBgColor ?? "#f4f4f5")">
-                                <span class="material-symbols-outlined text-white text-[20px]">
-                                    @(item.IconClass ?? "workspace_premium")
-                                </span>
+                                <i class="@(item.IconClass ?? "bi bi-award") text-white text-xl"></i>
                             </div>
                             <div>
                                 <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white leading-tight">@item.Issuer</h3>
