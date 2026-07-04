@@ -1,10 +1,4 @@
-﻿
-@{
-    ViewData["Title"] = "ProjectDetail";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-@model Project
+﻿@model Project
 @{
     ViewData["Title"] = Model.ProjectTitle;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -68,7 +62,7 @@
                              x-transition:leave-start="opacity-100 translate-x-0"
                              x-transition:leave-end="opacity-0 -translate-x-4">
                             <img src="@(string.IsNullOrEmpty(images[i].ImageURL) ? "/placeholder.png" : images[i].ImageURL)"
-                                 class="w-full object-cover max-h-[600px]"
+                                 class="w-full object-contain"
                                  loading="lazy" />
                         </div>
                     }

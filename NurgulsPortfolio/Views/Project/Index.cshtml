@@ -49,7 +49,7 @@
                          x-transition:leave-start="opacity-100 scale-100"
                          x-transition:leave-end="opacity-0 scale-95">
                         <article class="group h-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors card-h">
-                            <a href="/projects/@item.Id" class="block overflow-hidden h-52">
+                            <a href="/projeler/@item.Id" class="block overflow-hidden h-52">
                                 <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                      src="@(string.IsNullOrEmpty(item.CoverImageURL) ? "/placeholder.png" : item.CoverImageURL)"
                                      loading="lazy" />
@@ -75,7 +75,7 @@
                                     </h3>
                                 </a>
                                 <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4 line-clamp-2">@item.Description</p>
-                                <a href="/projeler@item.Id" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl hover:text-accent transition-colors">
+                                <a href ="/projeler/@item.Id" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl hover:text-accent transition-colors">
                                     Detaya Git →
                                 </a>
                             </div>
