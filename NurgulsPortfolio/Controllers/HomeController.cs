@@ -28,26 +28,33 @@ namespace NurgulsPortfolio.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage(ContactMe contactMe)
         {
-            // reCAPTCHA doğrulama
             var captchaResponse = Request.Form["g-recaptcha-response"];
-            var secret = _configuration["ReCaptcha:SecretKey"]; // IConfiguration değil _configuration
 
-            using var httpClient = new HttpClient();
-            var captchaResult = await httpClient.PostAsync(
-                $"https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={captchaResponse}",
-                null);
-            var json = await captchaResult.Content.ReadAsStringAsync();
-            var obj = System.Text.Json.JsonDocument.Parse(json);
+            if (!string.IsNullOrEmpty(captchaResponse))
+            {
+                var secret = _configuration["ReCaptcha:SecretKey"];
 
-            if (!obj.RootElement.GetProperty("success").GetBoolean())
+                using var httpClient = new HttpClient();
+                var captchaResult = await httpClient.PostAsync(
+                    $"https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={captchaResponse}",
+                    null);
+                var json = await captchaResult.Content.ReadAsStringAsync();
+                var obj = System.Text.Json.JsonDocument.Parse(json);
+
+                if (!obj.RootElement.GetProperty("success").GetBoolean())
+                {
+                    TempData["CaptchaError"] = "Lütfen robot olmadığınızı doğrulayın.";
+                    return RedirectToAction("Index");
+                }
+            }
+            else
             {
                 TempData["CaptchaError"] = "Lütfen robot olmadığınızı doğrulayın.";
                 return RedirectToAction("Index");
             }
 
-            // Validation
             ContactMeValidator validator = new ContactMeValidator();
-            ValidationResult validationResult = validator.Validate(contactMe); // result → validationResult
+            ValidationResult validationResult = validator.Validate(contactMe);
 
             if (validationResult.IsValid)
             {
@@ -57,7 +64,6 @@ namespace NurgulsPortfolio.Controllers
             }
 
             TempData["ValidationErrors"] = string.Join("|", validationResult.Errors.Select(x => x.ErrorMessage));
-            ViewData["ContactForm"] = contactMe;
             return RedirectToAction("Index");
         }
     }
