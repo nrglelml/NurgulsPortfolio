@@ -15,6 +15,10 @@
         }
     </div>
 }
+@if (TempData["CaptchaError"] != null)
+{
+    <div class="alert alert-danger">@TempData["CaptchaError"]</div>
+}
 <form asp-action="SendMessage" asp-controller="Home" method="post" novalidate>
     <div class="flex flex-col gap-4">
         <div class="grid sm:grid-cols-2 gap-4">
@@ -47,4 +51,7 @@
             Gönder →
         </button>
     </div>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <div class="g-recaptcha" data-sitekey="6Lf4q1MtAAAAAJ_3etvddb5v8LriDzMG_Une169n"></div>
 </form>

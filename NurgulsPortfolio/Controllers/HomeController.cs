@@ -1,4 +1,4 @@
-using BusinessLayer.Abstract;
+﻿using BusinessLayer.Abstract;
 using BusinessLayer.ValidationRules;
 using EntityLayer.Concrete;
 using FluentValidation.Results;
@@ -11,10 +11,12 @@ namespace NurgulsPortfolio.Controllers
     public class HomeController : BaseUIController
     {
         private readonly IContactMeService _contactMeService;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(IContactMeService contactMeService)
+        public HomeController(IContactMeService contactMeService, IConfiguration configuration)
         {
             _contactMeService = contactMeService;
+            _configuration = configuration;
         }
 
         [Route("/")]
@@ -24,19 +26,37 @@ namespace NurgulsPortfolio.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendMessage(ContactMe contactMe)
+        public async Task<IActionResult> SendMessage(ContactMe contactMe)
         {
-            ContactMeValidator validator = new ContactMeValidator();
-            ValidationResult result = validator.Validate(contactMe);
+            // reCAPTCHA doğrulama
+            var captchaResponse = Request.Form["g-recaptcha-response"];
+            var secret = _configuration["ReCaptcha:SecretKey"]; // IConfiguration değil _configuration
 
-            if (result.IsValid)
+            using var httpClient = new HttpClient();
+            var captchaResult = await httpClient.PostAsync(
+                $"https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={captchaResponse}",
+                null);
+            var json = await captchaResult.Content.ReadAsStringAsync();
+            var obj = System.Text.Json.JsonDocument.Parse(json);
+
+            if (!obj.RootElement.GetProperty("success").GetBoolean())
             {
-                _contactMeService.TAdd(contactMe);
-                TempData["Success"] = "Mesaj�n�z ba�ar�yla g�nderildi.";
+                TempData["CaptchaError"] = "Lütfen robot olmadığınızı doğrulayın.";
                 return RedirectToAction("Index");
             }
 
-            TempData["ValidationErrors"] = string.Join("|", result.Errors.Select(x => x.ErrorMessage));
+            // Validation
+            ContactMeValidator validator = new ContactMeValidator();
+            ValidationResult validationResult = validator.Validate(contactMe); // result → validationResult
+
+            if (validationResult.IsValid)
+            {
+                _contactMeService.TAdd(contactMe);
+                TempData["Success"] = "Mesajınız başarıyla gönderildi.";
+                return RedirectToAction("Index");
+            }
+
+            TempData["ValidationErrors"] = string.Join("|", validationResult.Errors.Select(x => x.ErrorMessage));
             ViewData["ContactForm"] = contactMe;
             return RedirectToAction("Index");
         }
